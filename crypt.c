@@ -25,8 +25,7 @@ void cr_encrypt_decrypt(
 {
     uint32_t original_length = numBytesDest;
     uint8_t *dcstream = dest;
-    uint64_t hkey = cr_keygen(
-        key, numBytesKey, CR_KEY_ITERATIONS);
+    uint64_t hkey = cr_keygen(key, numBytesKey, CR_KEY_ITERATIONS);
     uint64_t fkey = 0;
 
     while (numBytesDest--)
