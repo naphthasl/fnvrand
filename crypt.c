@@ -1,4 +1,5 @@
 #include "fnv.h"
+#include "fastrand.h"
 
 #ifndef CR_KEY_ITERATIONS
 #define CR_KEY_ITERATIONS 16384
@@ -26,17 +27,17 @@ void cr_encrypt_decrypt(
     register unsigned char *dcstream = dest;
     register unsigned long long hkey = cr_keygen(
         key, numBytesKey, CR_KEY_ITERATIONS);
-    register unsigned long long fkey;
+    register unsigned long long fkey = 0;
 
     while (numBytesDest--)
     {
         if (!(((original_length - numBytesDest) - 1) % KEY_WIDTH))
         {
-            fkey = (hkey ^ fnv1a64(&numBytesDest, KEY_WIDTH));
+            fkey = fr_rand64(hkey ^ fnv1a64(&numBytesDest, KEY_WIDTH));
         } else {
             fkey >>= 1;
         }
-        *dcstream ^= fkey;
-        dcstream++;
+
+        *dcstream++ ^= fkey;
     }
 }

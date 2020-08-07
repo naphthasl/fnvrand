@@ -72,8 +72,13 @@ unsigned int fr_genkeystream(
 unsigned int fr_randint(register unsigned int seed)
 {
     unsigned int fragments;
-
     (void)fr_genkeystream(&fragments, seed, sizeof(unsigned int));
-    
+    return fragments;
+}
+
+unsigned long long fr_rand64(register unsigned long long seed)
+{
+    unsigned long long fragments;
+    (void)fr_genkeystream(&fragments, seed, sizeof(unsigned long long));
     return fragments;
 }

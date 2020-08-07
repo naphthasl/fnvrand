@@ -7,6 +7,7 @@ unsigned int fr_genkeystream(
     unsigned int len);
 
 unsigned int fr_randint(register unsigned int seed);
+unsigned long long fr_rand64(register unsigned long long seed);
 
 #include "fastrand.c"
 #endif

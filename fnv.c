@@ -29,10 +29,3 @@ unsigned long long fnv1a64(
         
     return hash;
 }
-
-unsigned int fnv1r(const void *data, register unsigned int numBytes)
-{
-    register unsigned int hash = fnv1a(data, numBytes);
-    
-    return hash ^ fr_randint(hash ^ numBytes);
-}
