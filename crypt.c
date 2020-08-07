@@ -4,17 +4,15 @@
 #define CR_KEY_ITERATIONS 16384
 #endif
 
+#define KEY_WIDTH sizeof(unsigned long long)
+
 unsigned long long cr_keygen(
     const void *key,
     unsigned int numBytesKey,
-    unsigned int iterations)
+    register unsigned int iterations)
 {
     unsigned long long pivot = fnv1a64(key, numBytesKey);
-
-    register unsigned int i;
-    for (i = 0; i < iterations; i++)
-        pivot = fnv1a64(&pivot, sizeof(unsigned long long));
-
+    while (iterations--) pivot = fnv1a64(&pivot, KEY_WIDTH);
     return pivot;
 }
 
@@ -32,11 +30,9 @@ void cr_encrypt_decrypt(
 
     while (numBytesDest--)
     {
-        if (!(((original_length - numBytesDest) - 1) % sizeof(unsigned long long)))
+        if (!(((original_length - numBytesDest) - 1) % KEY_WIDTH))
         {
-            fkey = (hkey ^ fnv1a64(
-                &numBytesDest,
-                sizeof(unsigned long long)));
+            fkey = (hkey ^ fnv1a64(&numBytesDest, KEY_WIDTH));
         } else {
             fkey >>= 1;
         }
