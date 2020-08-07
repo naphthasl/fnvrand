@@ -38,6 +38,6 @@ void cr_encrypt_decrypt(
             fkey >>= 1;
         }
 
-        *dcstream++ ^= fkey;
+        *dcstream++ ^= (unsigned char)fkey;
     }
 }

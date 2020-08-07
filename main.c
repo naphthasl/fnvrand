@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    int i;
+    const char key[] = "readytogo";
 
     if (argc < 2)
     {
@@ -13,21 +13,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    char *str;
-    for (i = 1; i < argc; i++)
+    int i; for (i = 1; i < argc; i++)
     {
-        /*
-        str = (char*)malloc(strlen(argv[i]));
-        memcpy(str, argv[i], strlen(argv[i]));
-        cr_encrypt_decrypt(str, strlen(str), "readytogo", 9);
-        cr_encrypt_decrypt(str, strlen(str), "readytogo", 9);
-        printf("%s \"%s\"\n", str, argv[i]);
-        free(str);
-        */
-
-       cr_encrypt_decrypt(argv[i], strlen(argv[i]), "readytogo", 9);
-       cr_encrypt_decrypt(argv[i], strlen(argv[i]), "readytogo", 9);
-       printf("%s\n", argv[i]);
+        cr_encrypt_decrypt(argv[i], strlen(argv[i]), key, strlen(key));
+        cr_encrypt_decrypt(argv[i], strlen(argv[i]), key, strlen(key));
+        printf("%s\n", argv[i]);
     }
 
     return 0;
