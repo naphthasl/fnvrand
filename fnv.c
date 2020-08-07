@@ -1,5 +1,3 @@
-#include "fastrand.h"
-
 unsigned int fnv1a(const void *data, register unsigned int numBytes)
 {
     register unsigned int hash = 0x811C9DC5;
