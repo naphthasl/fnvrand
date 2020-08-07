@@ -1,4 +1,5 @@
 #include "fnv.h"
+#define CR_KEY_ITERATIONS 16384
 
 unsigned long long cr_keygen(
     const void *key,
@@ -22,7 +23,8 @@ void cr_encrypt_decrypt(
 {
     register unsigned int original_length = numBytesDest;
     register unsigned char *dcstream = dest;
-    register unsigned long long hkey = cr_keygen(key, numBytesKey, 16384);
+    register unsigned long long hkey = cr_keygen(
+        key, numBytesKey, CR_KEY_ITERATIONS);
     register unsigned long long fkey;
 
     unsigned int index;
