@@ -1,5 +1,8 @@
 #include "fnv.h"
+
+#ifndef CR_KEY_ITERATIONS
 #define CR_KEY_ITERATIONS 16384
+#endif
 
 unsigned long long cr_keygen(
     const void *key,
