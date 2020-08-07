@@ -2,7 +2,7 @@
 #define FASTRAND_HEADER_FILE
 
 unsigned int fr_genkeystream(
-    register unsigned int *dest,
+    void *dest,
     register unsigned int seed,
     unsigned int len);
 

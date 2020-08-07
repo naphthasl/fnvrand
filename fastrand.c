@@ -49,18 +49,19 @@ unsigned char fr_lookup1[256] = {
 };
 
 unsigned int fr_genkeystream(
-    register unsigned int *dest,
-    register unsigned int seed,
-    unsigned int numBytes)
+    void *dest,
+    unsigned seed,
+    unsigned numBytes)
 {
     register unsigned char seed_m0, seed_m1;
+    register unsigned char *dcstream = dest;
     
     while (numBytes--)
     {
         seed_m0 = seed ^ 0x6D,
         seed_m1 = seed ^ 0xBB;
 
-        *dest++ = fr_lookup0[seed_m0] ^ fr_lookup1[seed_m0] ^ seed_m1;
+        *dcstream++ = fr_lookup0[seed_m0] ^ fr_lookup1[seed_m0] ^ seed_m1;
 
         seed++;
     }
@@ -72,7 +73,7 @@ unsigned int fr_randint(register unsigned int seed)
 {
     unsigned int fragments;
 
-    (void)fr_genkeystream(&fragments, seed, 4);
+    (void)fr_genkeystream(&fragments, seed, sizeof(unsigned int));
     
     return fragments;
 }
