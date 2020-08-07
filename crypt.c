@@ -29,7 +29,8 @@ void cr_encrypt_decrypt(
 
     while (numBytesDest--)
     {
-        if (!(((original_length - numBytesDest) - 1) % sizeof(unsigned long long))) {
+        if (!(((original_length - numBytesDest) - 1) % sizeof(unsigned long long)))
+        {
             fkey = (hkey ^ fnv1a64(
                 &numBytesDest,
                 sizeof(unsigned long long)));
