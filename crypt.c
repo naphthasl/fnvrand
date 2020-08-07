@@ -27,14 +27,11 @@ void cr_encrypt_decrypt(
         key, numBytesKey, CR_KEY_ITERATIONS);
     register unsigned long long fkey;
 
-    unsigned int index;
-
     while (numBytesDest--)
     {
-        index = ((original_length - numBytesDest) - 1);
-        if (!(index % sizeof(unsigned long long))) {
+        if (!(((original_length - numBytesDest) - 1) % sizeof(unsigned long long))) {
             fkey = (hkey ^ fnv1a64(
-                &index,
+                &numBytesDest,
                 sizeof(unsigned long long)));
         } else {
             fkey >>= 1;
