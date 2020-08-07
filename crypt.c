@@ -1,10 +1,6 @@
 #include "fnv.h"
 #include "fastrand.h"
 
-#ifndef CR_KEY_ITERATIONS
-#define CR_KEY_ITERATIONS 16384
-#endif
-
 uint64_t cr_keygen(
     const void *key,
     uint32_t numBytesKey,

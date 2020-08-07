@@ -1,18 +1,21 @@
-#ifndef FCRYPT_HEADER_FILE
-#define FCRYPT_HEADER_FILE
-
 #include <stdint.h>
 
-uint64_t cr_keygen(
-    const void *key,
-    uint32_t numBytesKey,
-    uint32_t iterations);
+#ifndef FCRYPT_HEADER_FILE
+#define FCRYPT_HEADER_FILE
+    #ifndef CR_KEY_ITERATIONS
+    #define CR_KEY_ITERATIONS 16384
+    #endif
 
-void cr_encrypt_decrypt(
-    void *dest,
-    uint32_t numBytesDest,
-    const void *key,
-    uint32_t numBytesKey);
+    uint64_t cr_keygen(
+        const void *key,
+        uint32_t numBytesKey,
+        uint32_t iterations);
 
-#include "crypt.c"
+    void cr_encrypt_decrypt(
+        void *dest,
+        uint32_t numBytesDest,
+        const void *key,
+        uint32_t numBytesKey);
+
+    #include "crypt.c"
 #endif
