@@ -53,8 +53,8 @@ unsigned int fr_genkeystream(
     unsigned seed,
     unsigned numBytes)
 {
-    register unsigned char seed_m0, seed_m1;
-    register unsigned char *dcstream = dest;
+    unsigned char seed_m0, seed_m1;
+    unsigned char *dcstream = dest;
     
     while (numBytes--)
     {
@@ -69,14 +69,14 @@ unsigned int fr_genkeystream(
     return seed;
 }
 
-unsigned int fr_randint(register unsigned int seed)
+unsigned int fr_randint(unsigned int seed)
 {
     unsigned int fragments;
     (void)fr_genkeystream(&fragments, seed, sizeof(unsigned int));
     return fragments;
 }
 
-unsigned long long fr_rand64(register unsigned long long seed)
+unsigned long long fr_rand64(unsigned long long seed)
 {
     unsigned long long fragments;
     (void)fr_genkeystream(&fragments, seed, sizeof(unsigned long long));

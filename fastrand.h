@@ -3,11 +3,11 @@
 
 unsigned int fr_genkeystream(
     void *dest,
-    register unsigned int seed,
+    unsigned int seed,
     unsigned int len);
 
-unsigned int fr_randint(register unsigned int seed);
-unsigned long long fr_rand64(register unsigned long long seed);
+unsigned int fr_randint(unsigned int seed);
+unsigned long long fr_rand64(unsigned long long seed);
 
 #include "fastrand.c"
 #endif

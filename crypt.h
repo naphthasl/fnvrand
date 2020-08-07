@@ -4,7 +4,7 @@
 unsigned long long cr_keygen(
     const void *key,
     unsigned int numBytesKey,
-    register unsigned int iterations);
+    unsigned int iterations);
 
 void cr_encrypt_decrypt(
     void *dest,

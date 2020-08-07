@@ -10,7 +10,7 @@
 unsigned long long cr_keygen(
     const void *key,
     unsigned int numBytesKey,
-    register unsigned int iterations)
+    unsigned int iterations)
 {
     unsigned long long pivot = fnv1a64(key, numBytesKey);
     while (iterations--) pivot = fnv1a64(&pivot, KEY_WIDTH);
@@ -23,11 +23,11 @@ void cr_encrypt_decrypt(
     const void *key,
     unsigned int numBytesKey)
 {
-    register unsigned int original_length = numBytesDest;
-    register unsigned char *dcstream = dest;
-    register unsigned long long hkey = cr_keygen(
+    unsigned int original_length = numBytesDest;
+    unsigned char *dcstream = dest;
+    unsigned long long hkey = cr_keygen(
         key, numBytesKey, CR_KEY_ITERATIONS);
-    register unsigned long long fkey = 0;
+    unsigned long long fkey = 0;
 
     while (numBytesDest--)
     {
