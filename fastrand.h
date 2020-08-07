@@ -1,13 +1,15 @@
 #ifndef FASTRAND_HEADER_FILE
 #define FASTRAND_HEADER_FILE
 
-unsigned int fr_genkeystream(
-    void *dest,
-    unsigned int seed,
-    unsigned int len);
+#include <stdint.h>
 
-unsigned int fr_randint(unsigned int seed);
-unsigned long long fr_rand64(unsigned long long seed);
+uint32_t fr_genkeystream(
+    void *dest,
+    uint32_t seed,
+    uint32_t numBytes);
+
+uint32_t fr_randint(uint32_t seed);
+uint64_t fr_rand64(uint64_t seed);
 
 #include "fastrand.c"
 #endif

@@ -1,7 +1,7 @@
-unsigned int fnv1a(const void *data, unsigned int numBytes)
+uint32_t fnv1a(const void *data, uint32_t numBytes)
 {
-    unsigned int hash = 0x811C9DC5;
-    const unsigned char *ptr = (const unsigned char *)data;
+    uint32_t hash = 0x811C9DC5;
+    const uint8_t *ptr = (const uint8_t *)data;
     
     while (numBytes--)
         hash = (*ptr++ ^ hash) * 0x01000193;
@@ -9,12 +9,10 @@ unsigned int fnv1a(const void *data, unsigned int numBytes)
     return hash;
 }
 
-unsigned long long fnv1a64(
-    const void *data,
-    unsigned long long numBytes)
+uint64_t fnv1a64(const void *data, uint64_t numBytes)
 {
-    unsigned long long hash = 0xCBF29CE484222325;
-    const unsigned char *ptr = (const unsigned char *)data;
+    uint64_t hash = 0xCBF29CE484222325;
+    const uint8_t *ptr = (const uint8_t *)data;
     
     while (numBytes--)
         hash = (*ptr++ ^ hash) * 0x00000100000001B3;

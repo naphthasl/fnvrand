@@ -1,4 +1,4 @@
-unsigned char fr_lookup0[256] = {
+uint8_t fr_lookup0[256] = {
     0x20, 0x35, 0xFE, 0x22, 0x56, 0xA3, 0xB1, 0x65, 0x42, 0xCC, 0x0A, 0x62,
     0x7A, 0x23, 0xFA, 0x11, 0x9F, 0x49, 0xA9, 0x24, 0xED, 0xF7, 0x42, 0x16,
     0xA1, 0x05, 0xF4, 0xA6, 0xCF, 0x5D, 0x2F, 0x6E, 0x96, 0xDF, 0x8C, 0xE6,
@@ -23,7 +23,7 @@ unsigned char fr_lookup0[256] = {
     0xB3, 0x25, 0x46, 0x07
 };
 
-unsigned char fr_lookup1[256] = {
+uint8_t fr_lookup1[256] = {
     0x07, 0x9D, 0x02, 0x7D, 0x11, 0x6E, 0x4A, 0xF3, 0x7E, 0xBE, 0x4B, 0x7E,
     0x62, 0xB6, 0x99, 0xCD, 0x72, 0x48, 0x0F, 0xC9, 0xC1, 0x13, 0x12, 0x57,
     0x8B, 0xD2, 0x28, 0x39, 0xEC, 0xE4, 0xD7, 0x19, 0x28, 0xBE, 0x9C, 0x01,
@@ -48,20 +48,20 @@ unsigned char fr_lookup1[256] = {
     0xF0, 0x19, 0xBC, 0x3E
 };
 
-unsigned int fr_genkeystream(
+uint32_t fr_genkeystream(
     void *dest,
-    unsigned seed,
-    unsigned numBytes)
+    uint32_t seed,
+    uint32_t numBytes)
 {
-    unsigned char seed_m0, seed_m1;
-    unsigned char *dcstream = dest;
+    uint8_t seed_m0, seed_m1;
+    uint8_t *dcstream = dest;
     
     while (numBytes--)
     {
         seed_m0 = seed ^ 0x6D,
         seed_m1 = seed ^ 0xBB;
 
-        *dcstream++ = fr_lookup0[seed_m0] ^ fr_lookup1[seed_m0] ^ seed_m1;
+        *dcstream++ = (uint8_t)(fr_lookup0[seed_m0] ^ fr_lookup1[seed_m1]);
 
         seed++;
     }
@@ -69,16 +69,16 @@ unsigned int fr_genkeystream(
     return seed;
 }
 
-unsigned int fr_randint(unsigned int seed)
+uint32_t fr_randint(uint32_t seed)
 {
-    unsigned int fragments;
-    (void)fr_genkeystream(&fragments, seed, sizeof(unsigned int));
+    uint32_t fragments;
+    (void)fr_genkeystream(&fragments, seed, sizeof(uint32_t));
     return fragments;
 }
 
-unsigned long long fr_rand64(unsigned long long seed)
+uint64_t fr_rand64(uint64_t seed)
 {
-    unsigned long long fragments;
-    (void)fr_genkeystream(&fragments, seed, sizeof(unsigned long long));
+    uint64_t fragments;
+    (void)fr_genkeystream(&fragments, seed, sizeof(uint64_t));
     return fragments;
 }

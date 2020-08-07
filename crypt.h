@@ -1,16 +1,18 @@
 #ifndef FCRYPT_HEADER_FILE
 #define FCRYPT_HEADER_FILE
 
-unsigned long long cr_keygen(
+#include <stdint.h>
+
+uint64_t cr_keygen(
     const void *key,
-    unsigned int numBytesKey,
-    unsigned int iterations);
+    uint32_t numBytesKey,
+    uint32_t iterations);
 
 void cr_encrypt_decrypt(
     void *dest,
-    unsigned int numBytesDest,
+    uint32_t numBytesDest,
     const void *key,
-    unsigned int numBytesKey);
+    uint32_t numBytesKey);
 
 #include "crypt.c"
 #endif
