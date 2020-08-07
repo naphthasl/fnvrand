@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "fnvrand.h"
+#include "fnv.h"
 
 int main(int argc, char *argv[])
 {
