@@ -72,7 +72,7 @@ uint64_t fr_genkeystream(
 uint64_t fr_64noise(uint64_t seed)
 {
     uint64_t fragments;
-    (void)fr_genkeystream(&fragments, seed, sizeof(uint64_t));
+    (void)fr_genkeystream(&fragments, seed, 8);
     return fragments;
 }
 

@@ -8,7 +8,7 @@ uint64_t cr_keygen(
     register uint32_t iterations)
 {
     uint64_t pivot = fnv1a64(key, numBytesKey) ^ seed;
-    while (iterations--) pivot ^= fnv1a64(&pivot, sizeof(uint64_t));
+    while (iterations--) pivot ^= fnv1a64(&pivot, 8);
     return pivot;
 }
 
@@ -22,10 +22,10 @@ void cr_encrypt_decrypt(
     register uint64_t fkey = 0;
     while (numBytesDest--)
     {
-        if (!(((original_length - numBytesDest) - 1) % sizeof(uint64_t)))
+        if (!(((original_length - numBytesDest) - 1) % 8))
         {
-            fkey ^= gkey ^ fnv1a64(&numBytesDest, sizeof(uint32_t));
-        } else { fkey = ~(fkey >> sizeof(uint8_t) * 8); }
+            fkey ^= gkey ^ fnv1a64(&numBytesDest, 4);
+        } else { fkey = ~(fkey >> 8); }
 
         *dcstream++ ^= (uint8_t)fr_8noise(fkey);
     }
