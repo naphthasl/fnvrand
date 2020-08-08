@@ -2,15 +2,15 @@
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
-    typedef struct {
+    typedef struct RadixTableElement {
         RadixMemoryBlob key;
         RadixMemoryBlob value;
-    } RadixListElement;
+    } RadixTableElement;
 
-    typedef struct {
+    typedef struct RadixTable {
         unsigned int length;
-        RadixListElement *elements;
-    } RadixList;
+        RadixTableElement *elements;
+    } RadixTable;
 
-    #include "list.c"
+    #include "table.c"
 #endif
