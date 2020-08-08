@@ -1,3 +1,8 @@
+typedef struct {
+    unsigned long long length;
+    void *ptr;
+} RadixMemoryBlob;
+
 RadixMemoryBlob RadixAbstract_ConstructCOWBlob(void *dest, unsigned long long length)
 {
     RadixMemoryBlob final = {length, dest}; return final;
