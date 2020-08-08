@@ -58,9 +58,8 @@ uint64_t fr_genkeystream(
     
     while (numBytes--)
     {
-        seed_m0 = seed ^ 0x6D,
+        seed_m0 = seed ^ 0x6D;
         seed_m1 = seed ^ 0xBB;
-
         *dcstream++ = (uint8_t)(fr_lookup0[seed_m0] ^ fr_lookup1[seed_m1]);
 
         seed++;
