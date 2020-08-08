@@ -2,10 +2,7 @@
 
 #ifndef FCRYPT_HEADER_FILE
 #define FCRYPT_HEADER_FILE
-    typedef struct {
-        uint64_t gkey, fkey;
-        uint32_t index;
-    } cr_state;
+    typedef struct cr_state cr_state;
 
     uint64_t cr_keygen(
         const void *key,

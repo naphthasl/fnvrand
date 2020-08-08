@@ -1,6 +1,11 @@
 #include "fnv.h"
 #include "fastrand.h"
 
+typedef struct cr_state {
+    uint64_t gkey, fkey;
+    uint32_t index;
+} cr_state;
+
 uint64_t cr_keygen(
     const void *key,
     uint32_t numBytesKey,
