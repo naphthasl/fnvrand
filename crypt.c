@@ -33,6 +33,7 @@ uint8_t cr_operate_byte(uint8_t i, cr_state *state)
 void cr_encrypt_decrypt(void *dest, uint32_t numBytes, const uint64_t gkey)
 {
     register uint8_t *dcstream = (uint8_t *)dest;
-    cr_state state; cr_init_crypt(&state, gkey);
+    cr_state state;
+    cr_init_crypt(&state, gkey);
     while (numBytes--) *dcstream++ = cr_operate_byte(*dcstream, &state);
 }
