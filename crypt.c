@@ -12,21 +12,32 @@ uint64_t cr_keygen(
     return pivot;
 }
 
+void cr_init_crypt(cr_state *state, const uint64_t gkey)
+{
+    state->gkey = gkey; state->fkey = 0; state->index = 0;
+}
+
+uint8_t cr_operate_byte(uint8_t i, cr_state *state)
+{
+    if (!(state->index % 8))
+    {
+        state->fkey ^= state->gkey ^ fnv1a64(&(state->index), 4);
+    } else { state->fkey = ~(state->fkey >> 8); }
+    state->index++;
+
+    return i ^= (uint8_t)fr_8noise(state->fkey);
+}
+
 void cr_encrypt_decrypt(
     void *dest,
     uint32_t numBytesDest,
     const uint64_t gkey)
 {
     register uint8_t *dcstream = (uint8_t *)dest;
-    register uint32_t original_length = numBytesDest;
-    register uint64_t fkey = 0;
+    cr_state state; cr_init_crypt(&state, gkey);
     while (numBytesDest--)
     {
-        if (!(((original_length - numBytesDest) - 1) % 8))
-        {
-            fkey ^= gkey ^ fnv1a64(&numBytesDest, 4);
-        } else { fkey = ~(fkey >> 8); }
-
-        *dcstream++ ^= (uint8_t)fr_8noise(fkey);
+        *dcstream = cr_operate_byte(*dcstream, &state);
+        dcstream++;
     }
 }
