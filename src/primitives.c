@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "util.h"
 
 typedef struct RadixMemoryBlob {
@@ -19,6 +21,14 @@ RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
         malloc(length), length);
     temp.heap = true;
     return temp;
+}
+
+void RadixAbstract_ResizeMallocBlob(
+    RadixMemoryBlob *blob,
+    unsigned long long new_length)
+{
+    if (blob->heap) blob->ptr = realloc(blob->ptr, new_length);
+    else { printf("error: attempted to reallocate a stack blob!\n"); abort(); }
 }
 
 RadixMemoryBlob RadixAbstract_SliceBlob(
@@ -48,6 +58,11 @@ unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob)
 void * RadixAbstract_GetBlobPointer(RadixMemoryBlob *blob)
 {
     return blob->ptr;
+}
+
+bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob *blob)
+{
+    return blob->heap;
 }
 
 void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
