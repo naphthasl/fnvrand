@@ -50,11 +50,11 @@ uint8_t fr_lookup1[256] = {
 
 uint64_t fr_genkeystream(
     void *dest,
-    uint64_t seed,
-    uint32_t numBytes)
+    register uint64_t seed,
+    register uint32_t numBytes)
 {
-    uint8_t seed_m0, seed_m1;
-    uint8_t *dcstream = dest;
+    register uint8_t seed_m0, seed_m1;
+    register uint8_t *dcstream = dest;
     
     while (numBytes--)
     {

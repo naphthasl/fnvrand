@@ -4,8 +4,8 @@
 #define FASTRAND_HEADER_FILE
     uint64_t fr_genkeystream(
         void *dest,
-        uint64_t seed,
-        uint32_t numBytes);
+        register uint64_t seed,
+        register uint32_t numBytes);
 
     uint64_t fr_64noise(uint64_t seed);
     uint32_t fr_32noise(uint32_t seed);
