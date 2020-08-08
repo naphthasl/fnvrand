@@ -15,7 +15,7 @@
 
     void cr_init_crypt(cr_state *state, const uint64_t gkey);
     uint8_t cr_operate_byte(uint8_t i, cr_state *state);
-    void cr_encrypt_decrypt(void *dest, uint32_t numBytesDest, uint64_t gkey);
+    void cr_encrypt_decrypt(void *dest, uint32_t numBytes, const uint64_t gkey);
 
     #include "crypt.c"
 #endif
