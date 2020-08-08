@@ -8,7 +8,7 @@ RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
     return RadixAbstract_ConstructCOWBlob(malloc(length), length);
 }
 
-void RadixAbstract_DestroyBlob(RadixMemoryBlob blob)
+void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
 {
-    free(blob.ptr);
+    free(blob->ptr);
 }
