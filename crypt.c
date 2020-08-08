@@ -17,7 +17,7 @@ void cr_encrypt_decrypt(
     const void *key,
     uint32_t numBytesKey)
 {
-    uint8_t *dcstream = dest;
+    uint8_t *dcstream = (uint8_t *)dest;
 
     uint32_t original_length = numBytesDest;
 
