@@ -3,8 +3,8 @@
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
     typedef struct {
-        unsigned int length;
-        void *data;
+        void *key;
+        void *value;
     } RadixListElement;
 
     typedef struct {
