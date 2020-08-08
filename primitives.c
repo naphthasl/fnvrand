@@ -6,16 +6,38 @@ typedef struct RadixMemoryBlob {
     bool heap;
 } RadixMemoryBlob;
 
-RadixMemoryBlob RadixAbstract_ConstructCOWBlob(void *dest, unsigned long long length)
+RadixMemoryBlob RadixAbstract_ConstructCOWBlob(
+    void *dest,
+    unsigned long long length)
 {
     RadixMemoryBlob final = {length, dest, false}; return final;
 }
 
 RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
 {
-    RadixMemoryBlob temp = RadixAbstract_ConstructCOWBlob(malloc(length), length);
+    RadixMemoryBlob temp = RadixAbstract_ConstructCOWBlob(
+        malloc(length), length);
     temp.heap = true;
     return temp;
+}
+
+RadixMemoryBlob RadixAbstract_SliceBlob(
+    RadixMemoryBlob *blob,
+    unsigned long long offset,
+    unsigned long long length)
+{
+    RadixMemoryBlob temp = RadixAbstract_ConstructCOWBlob(
+        (blob->ptr)+offset, length);
+    temp.heap = blob->heap;
+    return temp;
+}
+
+void RadixAbstract_InsertBlob(
+    RadixMemoryBlob *source,
+    RadixMemoryBlob *target,
+    unsigned long long target_offset)
+{
+    memcpy((target->ptr)+target_offset, source->ptr, source->length);
 }
 
 unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob)
