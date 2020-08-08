@@ -43,5 +43,6 @@ void cr_encrypt_decrypt(RadixMemoryBlob *data, const uint64_t gkey)
     register uint8_t *dcstream = (uint8_t *)RadixAbstract_GetBlobPointer(data);
     cr_state state;
     cr_init_crypt(&state, gkey);
-    while (numBytes--) *dcstream++ = cr_operate_byte(*dcstream, &state);
+    while (numBytes--)
+        { *dcstream = cr_operate_byte(*dcstream, &state); dcstream++; }
 }

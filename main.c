@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     char *key = "readytogo";
     RadixMemoryBlob bkey = (RadixAbstract_ConstructPointerBlob(key, strlen(key)));
     uint64_t hkey = cr_keygen(&bkey, (uint64_t)time(0), 16777216);
-    printf("KEY: %016llX\n", hkey);
+    printf("KEY: %016llX\n", (long long unsigned int)hkey);
 
     if (argc < 2)
     {

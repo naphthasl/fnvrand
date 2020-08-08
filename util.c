@@ -38,7 +38,7 @@ uint16_t u_chartohex[256] = {
 void u_memtohex(void *dest, const void *src, register uint64_t numSrcBytes)
 {
     register uint16_t *dcstream = (uint16_t *)dest;
-    const register uint8_t *instream = (const uint8_t *)src;
+    register const uint8_t *instream = (const uint8_t *)src;
 
     while (numSrcBytes--) *dcstream++ = u_chartohex[*instream++];
 }
