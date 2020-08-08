@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
-#include "radix.h"
+#include "src/radix.h"
 
 int main(int argc, char *argv[])
 {
