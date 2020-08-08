@@ -1,3 +1,5 @@
+#include <math.h>
+
 uint8_t fr_lookup0[256] = {
     0x20, 0x35, 0xFE, 0x22, 0x56, 0xA3, 0xB1, 0x65, 0x42, 0xCC, 0x0A, 0x62,
     0x7A, 0x23, 0xFA, 0x11, 0x9F, 0x49, 0xA9, 0x24, 0xED, 0xF7, 0x42, 0x16,
@@ -46,9 +48,9 @@ uint8_t fr_lookup1[256] = {
     0x65, 0x46, 0xEF, 0xF9, 0x62, 0xC3, 0x94, 0x2D, 0x95, 0xB0, 0x35, 0x8E,
     0xF0, 0x19, 0xBC, 0x3E};
 
-uint32_t fr_genkeystream(
+uint64_t fr_genkeystream(
     void *dest,
-    uint32_t seed,
+    uint64_t seed,
     uint32_t numBytes)
 {
     uint8_t seed_m0, seed_m1;
@@ -67,16 +69,13 @@ uint32_t fr_genkeystream(
     return seed;
 }
 
-uint32_t fr_randint(uint32_t seed)
-{
-    uint32_t fragments;
-    (void)fr_genkeystream(&fragments, seed, sizeof(uint32_t));
-    return fragments;
-}
-
-uint64_t fr_rand64(uint64_t seed)
+uint64_t fr_64noise(uint64_t seed)
 {
     uint64_t fragments;
     (void)fr_genkeystream(&fragments, seed, sizeof(uint64_t));
     return fragments;
 }
+
+uint32_t fr_32noise(uint32_t seed) { return fr_64noise(seed) & 4294967295; }
+uint16_t fr_16noise(uint16_t seed) { return fr_64noise(seed) & 65535;      }
+uint8_t  fr_8noise (uint8_t  seed) { return fr_64noise(seed) & 255;        }

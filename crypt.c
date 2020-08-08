@@ -29,6 +29,6 @@ void cr_encrypt_decrypt(
             fkey = ~(fkey >> sizeof(uint8_t) * 8);
         }
 
-        *dcstream++ ^= (uint8_t)fkey;
+        *dcstream++ ^= (uint8_t)fr_8noise(fkey);
     }
 }
