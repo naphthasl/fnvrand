@@ -52,7 +52,7 @@ void u_memtohex(void *dest, const void *src, uint64_t numSrcBytes)
 
 void u_printmemhex(const void *src, uint64_t numSrcBytes)
 {
-    char *str = (char *)malloc(sizeof(uint16_t) * numSrcBytes);
+    char *str = (char *)malloc(2 * numSrcBytes);
     u_memtohex(str, src, numSrcBytes);
     printf("%s", str);
     free(str);
