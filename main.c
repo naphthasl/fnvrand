@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
         cr_encrypt_decrypt(&bdata, hkey);
         printf("DEC: "); u_printmemhex(argv[i], length); printf("\n");
 
+        RadixAbstract_DestroyBlob(&bdata);
+
         printf("FIN: %s\n", argv[i]);
     }
 
