@@ -39,20 +39,18 @@ uint16_t u_chartohex[256] = {
     0x3046, 0x3146, 0x3246, 0x3346, 0x3446, 0x3546, 0x3646, 0x3746,
     0x3846, 0x3946, 0x4146, 0x4246, 0x4346, 0x4446, 0x4546, 0x4646};
 
-void u_memtohex(void *dest, const void *src, uint64_t numSrcBytes)
+void u_memtohex(void *dest, const void *src, register uint64_t numSrcBytes)
 {
-    uint16_t *dcstream = (uint16_t *)dest;
-    const uint8_t *instream = (const uint8_t *)src;
+    register uint16_t *dcstream = (uint16_t *)dest;
+    const register uint8_t *instream = (const uint8_t *)src;
 
     while (numSrcBytes--)
-    {
         *dcstream++ = u_chartohex[*instream++];
-    }
 }
 
-void u_printmemhex(const void *src, uint64_t numSrcBytes)
+void u_printmemhex(const void *src, register uint64_t numSrcBytes)
 {
-    char *str = (char *)malloc(2 * numSrcBytes);
+    register char *str = (char *)malloc(2 * numSrcBytes);
     u_memtohex(str, src, numSrcBytes);
     printf("%s", str);
     free(str);
