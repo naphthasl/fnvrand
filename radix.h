@@ -4,4 +4,5 @@
     #include "crypt.h"
     #include "fastrand.h"
     #include "fnv.h"
+    #include "list.h"
 #endif
