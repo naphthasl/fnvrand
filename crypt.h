@@ -6,7 +6,7 @@
         const void *key,
         uint32_t numBytesKey,
         uint64_t seed,
-        uint32_t iterations);
+        register uint32_t iterations);
 
     void cr_encrypt_decrypt(
         void *dest,
