@@ -1,5 +1,6 @@
 #include "fnv.h"
 #include "fastrand.h"
+#include "primitives.h"
 
 typedef struct cr_state {
     uint64_t gkey, fkey;
@@ -7,12 +8,14 @@ typedef struct cr_state {
 } cr_state;
 
 uint64_t cr_keygen(
-    const void *key,
-    uint32_t numBytesKey,
+    RadixMemoryBlob *key,
     uint64_t seed,
     register uint32_t iterations)
 {
-    uint64_t pivot = fnv1a64(key, numBytesKey) ^ seed;
+    uint64_t pivot = fnv1a64(
+        RadixAbstract_GetBlobPointer(key),
+        RadixAbstract_GetBlobLength(key)
+    ) ^ seed;
     while (iterations--) pivot ^= fnv1a64(&pivot, 8);
     return pivot;
 }
@@ -34,9 +37,10 @@ uint8_t cr_operate_byte(uint8_t i, cr_state *state)
     return i ^= (uint8_t)fr_8noise(state->fkey);
 }
 
-void cr_encrypt_decrypt(void *dest, uint32_t numBytes, const uint64_t gkey)
+void cr_encrypt_decrypt(RadixMemoryBlob *data, const uint64_t gkey)
 {
-    register uint8_t *dcstream = (uint8_t *)dest;
+    register uint32_t numBytes = RadixAbstract_GetBlobLength(data);
+    register uint8_t *dcstream = (uint8_t *)RadixAbstract_GetBlobPointer(data);
     cr_state state;
     cr_init_crypt(&state, gkey);
     while (numBytes--) *dcstream++ = cr_operate_byte(*dcstream, &state);
