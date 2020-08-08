@@ -8,6 +8,16 @@ RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
     return RadixAbstract_ConstructCOWBlob(malloc(length), length);
 }
 
+unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob)
+{
+    return blob->length;
+}
+
+void * RadixAbstract_GetBlobPointer(RadixMemoryBlob *blob)
+{
+    return blob->ptr;
+}
+
 void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
 {
     free(blob->ptr);
