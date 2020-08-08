@@ -1,3 +1,5 @@
+#include "primitives.h"
+
 uint32_t fnv1a(const void *data, uint32_t numBytes)
 {
     uint32_t hash = 0x811C9DC5;
@@ -22,9 +24,14 @@ __uint128_t fnv1a128(const void *data, uint32_t numBytes)
     const uint64_t prmesplit[] = {0x000000000000013B, 0x0000000001000000};
     __uint128_t hash; memcpy(&hash, hashsplit, 16);
     __uint128_t prme; memcpy(&prme, prmesplit, 16);
-    
+
     const uint8_t *ptr = (const uint8_t *)data;
     
     while (numBytes--) hash = (*ptr++ ^ hash) * prme; 
     return hash;
+}
+
+uint64_t RadixAbstract_fnv1a_64(RadixMemoryBlob *data)
+{
+    return fnv1a64(data->ptr, data->length);
 }
