@@ -1,10 +1,10 @@
-#include <stdint.h>
+#include "primitives.h"
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
     typedef struct {
-        void *key;
-        void *value;
+        RadixMemoryBlob key;
+        RadixMemoryBlob value;
     } RadixListElement;
 
     typedef struct {
