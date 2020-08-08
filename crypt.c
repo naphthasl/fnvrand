@@ -28,7 +28,7 @@ void cr_encrypt_decrypt(
         {
             fkey ^= gkey ^ fnv1a64(&numBytesDest, sizeof(uint32_t));
         } else {
-            fkey >>= sizeof(uint8_t);
+            fkey >>= sizeof(uint8_t) * 8;
         }
 
         *dcstream++ ^= (uint8_t)fkey;
