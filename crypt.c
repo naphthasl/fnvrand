@@ -23,8 +23,7 @@ uint8_t cr_operate_byte(uint8_t i, cr_state *state)
 {
     if (!(state->index % 8))
         state->fkey ^= state->gkey ^ fnv1a64(&(state->index), 4);
-    else
-        state->fkey = ~(state->fkey >> 8);
+    else state->fkey = ~(state->fkey >> 8);
 
     state->index++;
     return i ^= (uint8_t)fr_8noise(state->fkey);
