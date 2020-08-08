@@ -1,4 +1,4 @@
-typedef struct {
+typedef struct RadixMemoryBlob {
     unsigned long long length;
     void *ptr;
 } RadixMemoryBlob;
