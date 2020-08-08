@@ -6,7 +6,7 @@ typedef struct RadixMemoryBlob {
     bool heap;
 } RadixMemoryBlob;
 
-RadixMemoryBlob RadixAbstract_ConstructCOWBlob(
+RadixMemoryBlob RadixAbstract_ConstructPointerBlob(
     void *dest,
     unsigned long long length)
 {
@@ -15,7 +15,7 @@ RadixMemoryBlob RadixAbstract_ConstructCOWBlob(
 
 RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
 {
-    RadixMemoryBlob temp = RadixAbstract_ConstructCOWBlob(
+    RadixMemoryBlob temp = RadixAbstract_ConstructPointerBlob(
         malloc(length), length);
     temp.heap = true;
     return temp;
@@ -26,7 +26,7 @@ RadixMemoryBlob RadixAbstract_SliceBlob(
     unsigned long long offset,
     unsigned long long length)
 {
-    RadixMemoryBlob temp = RadixAbstract_ConstructCOWBlob(
+    RadixMemoryBlob temp = RadixAbstract_ConstructPointerBlob(
         (blob->ptr)+offset, length);
     temp.heap = blob->heap;
     return temp;

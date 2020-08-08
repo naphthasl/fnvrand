@@ -2,7 +2,7 @@
 #define FPRIM_HEADER_FILE
     typedef struct RadixMemoryBlob RadixMemoryBlob;
 
-    RadixMemoryBlob RadixAbstract_ConstructCOWBlob(
+    RadixMemoryBlob RadixAbstract_ConstructPointerBlob(
         void *dest,
         unsigned long long length);
     RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length);

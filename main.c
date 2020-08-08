@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     char *key = "readytogo";
-    RadixMemoryBlob bkey = (RadixAbstract_ConstructCOWBlob(key, strlen(key)));
+    RadixMemoryBlob bkey = (RadixAbstract_ConstructPointerBlob(key, strlen(key)));
     uint64_t hkey = cr_keygen(&bkey, (uint64_t)time(0), 16777216);
     printf("KEY: %016llX\n", hkey);
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         int length = strlen(argv[i]);
         printf("IN : "); u_printmemhex(argv[i], length); printf("\n");
 
-        bdata = RadixAbstract_ConstructCOWBlob(argv[i], length);
+        bdata = RadixAbstract_ConstructPointerBlob(argv[i], length);
         cr_encrypt_decrypt(&bdata, hkey);
         printf("ENC: "); u_printmemhex(argv[i], length); printf("\n");
 
