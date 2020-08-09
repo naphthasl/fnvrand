@@ -6,41 +6,58 @@
 /* Persistent structures */
 
 typedef struct RadixTableElement {
+    // This allows for better iterative performance when searching for keys
     uint64_t keyHash;
+    // This provides a key/value pair similar to Python's dicts
     RadixMemoryBlob key;
     RadixMemoryBlob value;
+    // Since this is based on the concept of a linked list...
     RadixTableElement *next_element;
 } RadixTableElement;
 
 typedef struct RadixTable {
+    // The length of the table, which changes during SetItem and DestroyItem
     unsigned long long length;
+    // The very first element of the table, which starts the chain.
     RadixTableElement *first_element;
 } RadixTable;
 
 typedef struct RadixTableKeyIterator {
+    // Points back to the table, so you always know the source.
     RadixTable *table;
+    // The current element that the iterator is hovering over.
     RadixTableElement *element;
+    // The current index the iterator is hovering over, starting from 1.
     unsigned long long index;
 } RadixTableKeyIterator;
 
 /* Internal magic */
 
 uint64_t RadixTable_HashKey(RadixMemoryBlob key)
+    /* Currently using "hardered" FNV-1A hashes for the keys.
+     * It may be worth swapping this out for xxHash or SIPHASH24 or something.
+     * (I think Python maybe uses SIPHASH???)
+     */
     { return RadixAbstract_fnv2r_64(&key); }
 
 /* Table initialization */
 
 RadixTable RadixTable_New()
-    {RadixTable table = {0, 0}; return table;}
+    // This allows for a single shared point for initialization! :)
+    { RadixTable table = {0, 0}; return table; }
 
 /* Property checking */
 
 unsigned long long RadixTable_Length(RadixTable *table)
+    // Ensures the user doesn't need to interact with the struct directly
     { return table->length; }
 
 /* Key iteration */
 
 RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table)
+    /* Create a key iterator - important, since it means you don't need to
+     * create an array containing every key hash or something.
+     */
     { RadixTableKeyIterator ki = {table, table->first_element, 1}; return ki; }
 
 RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki)
@@ -51,6 +68,7 @@ unsigned long long RadixTable_KeyIteratorIndex(RadixTableKeyIterator *ki)
 
 void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
 {
+    // If the current element is not a null pointer, move up the linked list.
     if (ki->element) { ki->element = ki->element->next_element; ki->index++; }
 }
 
