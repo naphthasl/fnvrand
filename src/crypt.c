@@ -20,11 +20,10 @@ uint64_t cr_keygen(
     return pivot;
 }
 
-void cr_init_crypt(cr_state *state, const uint64_t gkey)
+cr_state cr_init_crypt(const uint64_t gkey)
 {
-    state->gkey  = gkey;
-    state->fkey  = 0;
-    state->index = 0;
+    cr_state state = {gkey, 0, 0};
+    return state;
 }
 
 uint8_t cr_operate_byte(uint8_t i, cr_state *state)
@@ -41,8 +40,7 @@ void cr_encrypt_decrypt(RadixMemoryBlob *data, const uint64_t gkey)
 {
     register uint32_t numBytes = RadixAbstract_GetBlobLength(data);
     register uint8_t *dcstream = (uint8_t *)RadixAbstract_GetBlobPointer(data);
-    cr_state state;
-    cr_init_crypt(&state, gkey);
+    cr_state state = cr_init_crypt(gkey);
     while (numBytes--)
         { *dcstream = cr_operate_byte(*dcstream, &state); dcstream++; }
 }
