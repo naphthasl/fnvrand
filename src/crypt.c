@@ -12,11 +12,11 @@ uint64_t cr_keygen(
     uint64_t seed,
     register uint32_t iterations)
 {
-    uint64_t pivot = fnv1a64(
+    uint64_t pivot = fnv2r64(
         RadixAbstract_GetBlobPointer(key),
         RadixAbstract_GetBlobLength(key)
     ) ^ seed;
-    while (iterations--) pivot ^= fnv1a64(&pivot, 8);
+    while (iterations--) pivot ^= fnv2r64(&pivot, 8);
     return pivot;
 }
 

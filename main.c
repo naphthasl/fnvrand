@@ -7,6 +7,9 @@
 
 int main(int argc, char *argv[])
 {
+    uint64_t kts = fnv2r64("Tast", 4);
+    printf("KTS: "); u_printmemhex(&kts, 8); printf("\n");
+
     char *key = "readytogo";
     RadixMemoryBlob bkey = (RadixAbstract_ConstructPointerBlob(key, strlen(key)));
     uint64_t hkey = cr_keygen(&bkey, (uint64_t)time(0), 16777216);

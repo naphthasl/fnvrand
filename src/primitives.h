@@ -1,3 +1,12 @@
+/*
+ * @primitives.h
+ * Covers a set of basic types that Radix introduces in order to, hopefully,
+ * make your life easier.
+ * 
+ * Among these is the RadixMemoryBlob, which itends to make manipulation of
+ * data in memory easier, as well as memory management and bounds checking.
+ */
+
 #ifndef FPRIM_HEADER_FILE
 #define FPRIM_HEADER_FILE
     /* -- RandixMemoryBlob --
