@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
     RadixTable_DestroyItem(&test_table, StrToBlob("hello"));
     RadixTable_DestroyTable(&test_table);
 
+    RadixMemoryBlob haystack = StrToBlob("hello world");
+    RadixMemoryBlob needle = StrToBlob("o wo");
+    printf("Contains: %llu \n", RadixAbstract_BlobContains(&haystack, &needle, 4));
+
     uint64_t kts = fnv2r64("Tast", 4);
     printf("KTS: "); u_printmemhex(&kts, 8); printf("\n");
 

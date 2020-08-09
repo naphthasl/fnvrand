@@ -109,15 +109,17 @@ unsigned long long RadixAbstract_BlobContains(
     unsigned int interval)
 {
     RadixMemoryBlob buffer;
-    long long p;
-    long long scanlength = RadixAbstract_GetBlobLength(haystack);
+    unsigned long long p;
+    unsigned long long scanlength = RadixAbstract_GetBlobLength(haystack);
 
-    for (p = 0; p < scanlength; p += interval)
+    if (RadixAbstract_GetBlobLength(needle) > scanlength) return 0;
+
+    for (p = 0; p < scanlength; p += MAX(1, interval))
     {
         if (scanlength - p < interval) break;
 
         buffer = RadixAbstract_SliceBlob(
-            haystack, RadixAbstract_GetBlobLength(needle), p);
+            haystack, p, RadixAbstract_GetBlobLength(needle));
 
         if (RadixAbstract_BlobEquals(&buffer, needle)) return p + 1;
     }
