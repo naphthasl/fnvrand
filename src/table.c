@@ -3,6 +3,8 @@
 #include "fnv.h"
 #include "bool.h"
 
+/* Persistent structures */
+
 typedef struct RadixTableElement {
     uint64_t keyHash;
     RadixMemoryBlob key;
@@ -18,25 +20,41 @@ typedef struct RadixTable {
 typedef struct RadixTableKeyIterator {
     RadixTable *table;
     RadixTableElement *element;
+    unsigned long long index;
 } RadixTableKeyIterator;
+
+/* Internal magic */
 
 uint64_t RadixTable_HashKey(RadixMemoryBlob key)
     { return RadixAbstract_fnv2r_64(&key); }
 
+/* Table initialization */
+
 RadixTable RadixTable_New()
     {RadixTable table = {0, 0}; return table;}
+
+/* Property checking */
 
 unsigned long long RadixTable_Length(RadixTable *table)
     { return table->length; }
 
+/* Key iteration */
+
 RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table)
-    { RadixTableKeyIterator ki = {table, table->first_element}; return ki; }
+    { RadixTableKeyIterator ki = {table, table->first_element, 1}; return ki; }
 
 RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki)
     { return ki->element; }
 
+unsigned long long RadixTable_KeyIteratorIndex(RadixTableKeyIterator *ki)
+    { return ki->index; }
+
 void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
-    { if (ki->element) ki->element = ki->element->next_element; }
+{
+    if (ki->element) { ki->element = ki->element->next_element; ki->index++; }
+}
+
+/* Presence checking/Key to struct conversion */
 
 RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
 {
@@ -59,6 +77,8 @@ RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
 bool RadixTable_In(RadixTable *table, RadixMemoryBlob key)
     { return (RadixTable_Find(table, key)) ? true : false; }
 
+/* Value retreival retrieval */
+
 RadixMemoryBlob * RadixTable_GetItem(RadixTable *table, RadixMemoryBlob key)
 {
     RadixTableElement *element = RadixTable_Find(table, key);
@@ -67,6 +87,8 @@ RadixMemoryBlob * RadixTable_GetItem(RadixTable *table, RadixMemoryBlob key)
 
     return &(element->value);
 }
+
+/* Table Element Configuration/Manipulation */
 
 void RadixTable_SetItem(
     RadixTable *table,
@@ -116,6 +138,8 @@ bool RadixTable_ChangeKey(
 
     return true;
 }
+
+/* Memory usage reduction/Item destruction/Table destruction */
 
 bool RadixTable_DestroyItem(RadixTable *table, RadixMemoryBlob key)
 {
@@ -170,6 +194,8 @@ void RadixTable_DestroyTable(RadixTable *table)
     table->length = 0;
 }
 
+/* Table searching */
+
 RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
 {
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
@@ -185,6 +211,48 @@ RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
 
     return NULL;
 }
+
+/* Index manipulation */
+
+RadixMemoryBlob * RadixTable_KeyByIndex(
+    RadixTable *table,
+    unsigned long long index)
+{
+    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
+    RadixTableElement *element;
+
+    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    {
+        if (RadixTable_KeyIteratorIndex(&keys) >= index)
+            return &(element->key);
+
+        RadixTable_KeyIteratorNext(&keys);
+    }
+
+    return NULL;
+}
+
+unsigned long long RadixTable_IndexByKey(
+    RadixTable *table,
+    RadixMemoryBlob key)
+{
+    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
+    RadixTableElement *element;
+
+    uint64_t hkey = RadixTable_HashKey(key);
+
+    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    {
+        if (element->keyHash == hkey)
+            return RadixTable_KeyIteratorIndex(&keys);
+        
+        RadixTable_KeyIteratorNext(&keys);
+    }
+
+    return 0;
+}
+
+/* Pythonic updates */
 
 void RadixTable_Update(RadixTable *dest, RadixTable *src)
 {

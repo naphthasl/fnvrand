@@ -48,6 +48,11 @@
      */
     RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki);
 
+    /* -- RadixTable_KeyIteratorIndex --
+     * Return the current index of the key iterator. Starts at 1, not 0.
+     */
+    unsigned long long RadixTable_KeyIteratorIndex(RadixTableKeyIterator *ki);
+
     /* -- RadixTable_KeyIteratorNext --
      * Move the key iterator to the next key.
      */
@@ -121,6 +126,25 @@
     RadixMemoryBlob * RadixTable_ValueGet(
         RadixTable *table,
         RadixMemoryBlob value);
+
+    /* -- RadixTable_KeyByIndex --
+     * Return the key blob for a given index in the table. Indexes start at 1,
+     * not 0.
+     * 
+     * Returns a null pointer if no key is found at that index.
+     */
+    RadixMemoryBlob * RadixTable_KeyByIndex(
+        RadixTable *table,
+        unsigned long long index);
+
+    /* -- RadixTable_IndexByKey --
+     * Return the index of a given key in the table. Indexes start at 1, not 0.
+     * 
+     * Will return 0 if the key doesn't exist.
+     */
+    unsigned long long RadixTable_IndexByKey(
+        RadixTable *table,
+        RadixMemoryBlob key);
 
     /* -- RadixTable_Update --
      * Copy each element in the source table to the destination table.
