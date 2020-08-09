@@ -185,3 +185,16 @@ RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
 
     return NULL;
 }
+
+void RadixTable_Update(RadixTable *dest, RadixTable *src)
+{
+    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(src);
+    RadixTableElement *element;
+
+    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    {
+        RadixTable_SetItem(dest, element->key, element->value);
+
+        RadixTable_KeyIteratorNext(&keys);
+    }
+}

@@ -122,5 +122,11 @@
         RadixTable *table,
         RadixMemoryBlob value);
 
+    /* -- RadixTable_Update --
+     * Copy each element in the source table to the destination table.
+     * Overwrites any repeated keys in the destination.
+     */
+    void RadixTable_Update(RadixTable *dest, RadixTable *src);
+
     #include "table.c"
 #endif
