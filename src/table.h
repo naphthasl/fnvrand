@@ -89,6 +89,8 @@
      * the blobs you used for the key and value after this - they are copied
      * into a mallocated memory region. It is recommended to destroy the key
      * and value blobs afterwards, actually. (Use RadixAbstract_DestroyBlob)
+     * 
+     * Returns null pointer if no item by key is found
      */
     void RadixTable_SetItem(
         RadixTable *table,

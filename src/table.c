@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <assert.h>
 #include "fnv.h"
 #include "bool.h"
 
@@ -78,30 +77,38 @@ RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
 {
     uint64_t hkey;
 
+    // Create a new key iterator so that we can search the table
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
     RadixTableElement *element;
 
+    // Only calculate the hash if there are actually elements in the table
     if (RadixTable_KeyIteratorGet(&keys)) hkey = RadixTable_HashKey(key);
 
     while ((element = RadixTable_KeyIteratorGet(&keys)))
     {
+        // Compare each key hash and return when found
         if (element->keyHash == hkey) return element;
         RadixTable_KeyIteratorNext(&keys);
     }
 
+    // Return null pointer if there are no matching keys
     return NULL;
 }
 
 bool RadixTable_In(RadixTable *table, RadixMemoryBlob key)
+    // Converts RadixTable_Find to boolean form
     { return (RadixTable_Find(table, key)) ? true : false; }
 
 /* Value retreival retrieval */
 
 RadixMemoryBlob * RadixTable_GetItem(RadixTable *table, RadixMemoryBlob key)
 {
+    // Find an element by key and return the value - what most people will need
     RadixTableElement *element = RadixTable_Find(table, key);
 
-    assert(element);
+    // Return null pointer if not found
+    if (!element)
+        return NULL;
 
     return &(element->value);
 }
@@ -115,6 +122,7 @@ void RadixTable_SetItem(
 {
     RadixTableElement *element = RadixTable_Find(table, key);
 
+    // If the element doesn't exist, we have to do some funky things
     if (!element)
     {
         RadixTableElement *passing_element = (table->first_element);
@@ -132,12 +140,17 @@ void RadixTable_SetItem(
         }
 
         element->next_element = NULL;
+        // Create the new key hash
         element->keyHash = RadixTable_HashKey(key);
         element->key = RadixAbstract_MallocCopy(&key);
 
         table->length++;
-    } else { RadixAbstract_DestroyBlob(&(element->value)); }
+    } else {
+        // Destroy the original value to prevent a memory leak
+        RadixAbstract_DestroyBlob(&(element->value));
+    }
 
+    // Malloc a new blob for the value to isolate the table.
     element->value = RadixAbstract_MallocCopy(&value);
 }
 
