@@ -10,6 +10,7 @@
 #ifndef RADIX_HEADER_FILE
 #define RADIX_HEADER_FILE
     #include "bool.h"
+    #include "macros.h"
     #include "primitives.h"
     #include "table.h"
     #include "crypt.h"

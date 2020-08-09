@@ -5,13 +5,15 @@ typedef struct RadixMemoryBlob {
     unsigned long long length;
     void *ptr;
     bool heap;
+    bool destroyed;
 } RadixMemoryBlob;
 
 RadixMemoryBlob RadixAbstract_ConstructPointerBlob(
     void *dest,
     unsigned long long length)
 {
-    RadixMemoryBlob final = {length, dest, false}; return final;
+    RadixMemoryBlob final = {length, dest, false, false};
+    return final;
 }
 
 RadixMemoryBlob RadixAbstract_MallocBlob(unsigned long long length)
@@ -45,28 +47,58 @@ void RadixAbstract_InsertBlob(
     RadixMemoryBlob *source,
     RadixMemoryBlob *target,
     unsigned long long target_offset)
-{
-    memcpy((target->ptr)+target_offset, source->ptr, source->length);
-}
+    { memcpy((target->ptr)+target_offset, source->ptr, source->length); }
 
 unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob)
-{
-    return blob->length;
-}
+    { return blob->length; }
 
 void * RadixAbstract_GetBlobPointer(RadixMemoryBlob *blob)
-{
-    return blob->ptr;
-}
+    { return blob->ptr; }
 
 bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob *blob)
-{
-    return blob->heap;
-}
+    { return blob->heap; }
 
 void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
 {
-    if (blob->heap) {
+    if (blob->heap && !blob->destroyed) {
         free(blob->ptr);
     }
+
+    blob->destroyed = true;
+    blob->length = 0;
+}
+
+bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob *blob)
+    { return blob->destroyed; }
+
+RadixMemoryBlob RadixAbstract_StrBlob(void *dest)
+    { return RadixAbstract_ConstructPointerBlob(dest, strlen(dest)); }
+
+RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob *src)
+{
+    RadixMemoryBlob temp = RadixAbstract_MallocBlob(
+        RadixAbstract_GetBlobLength(src));
+
+    RadixAbstract_InsertBlob(src, &temp, 0);
+
+    return temp;
+}
+
+bool RadixAbstract_BlobEmpty(RadixMemoryBlob *blob)
+    { return (!RadixAbstract_GetBlobLength(blob)) ? true : false; }
+
+bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1)
+{
+    unsigned long long toCompare = RadixAbstract_GetBlobLength(b0);
+    if (toCompare != RadixAbstract_GetBlobLength(b1)) return false;
+    if (RadixAbstract_BlobEmpty(b0)) return true;
+
+    const char *ptr0 = (const char *)RadixAbstract_GetBlobPointer(b0);
+    const char *ptr1 = (const char *)RadixAbstract_GetBlobPointer(b1);
+
+    while (toCompare--)
+        if (*ptr0++ != *ptr1++)
+            return false;
+
+    return true;
 }

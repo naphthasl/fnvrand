@@ -86,5 +86,37 @@
         RadixMemoryBlob *blob,
         unsigned long long new_length);
 
+    /* -- RadixAbstract_ResizeMallocBlob --
+     * Returns true is a blob has been destroyed and false if it is still
+     * consuming memory.
+     */
+    bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob *blob);
+
+    /* -- RadixAbstract_StrBlob --
+     * Automatically forms blobs out of strings using strlen(). Can be used
+     * to do this... RadixAbstract_StrBlob("hello world!");
+     */
+    RadixMemoryBlob RadixAbstract_StrBlob(void *dest);
+
+    /* -- RadixAbstract_MallocCopy --
+     * Returns a copy of the source blob, automatically created with malloc
+     * and memcpy.
+     */
+    RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob *src);
+
+    /* -- RadixAbstract_BlobEmpty --
+     * Returns true if a given blob has a length of 0, and false if it does
+     * not.
+     */
+    bool RadixAbstract_BlobEmpty(RadixMemoryBlob *blob);
+
+    /* -- RadixAbstract_BlobEquals --
+     * Compares two blobs. If they have mismatching sizes, returns false.
+     * If they have mismatching bytes, returns false.
+     * If their contents are both identical, returns true.
+     * If their lengths are both zero, returns true.
+     */
+    bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1);
+
     #include "primitives.c"
 #endif

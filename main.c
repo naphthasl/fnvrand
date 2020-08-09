@@ -5,8 +5,18 @@
 #include <time.h>
 #include "src/radix.h"
 
+/* THIS IS FOR TESTING PURPOSES ONLY. PLEASE EXCUSE THE MESS. */
+
 int main(int argc, char *argv[])
 {
+    RadixTable test_table = RadixTable_New();
+    RadixTable_SetItem(&test_table, RadixAbstract_StrBlob("hello"), RadixAbstract_StrBlob("world"));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, RadixAbstract_StrBlob("hello"))));
+    RadixTable_SetItem(&test_table, RadixAbstract_StrBlob("hello"), RadixAbstract_StrBlob("bar"));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, RadixAbstract_StrBlob("hello"))));
+    RadixTable_DestroyItem(&test_table, RadixAbstract_StrBlob("hello"));
+    RadixTable_DestroyTable(&test_table);
+
     uint64_t kts = fnv2r64("Tast", 4);
     printf("KTS: "); u_printmemhex(&kts, 8); printf("\n");
 
