@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <assert.h>
 #include "bool.h"
 
 typedef struct RadixMemoryBlob {
@@ -27,8 +26,8 @@ void RadixAbstract_ResizeMallocBlob(
     RadixMemoryBlob *blob,
     unsigned long long new_length)
 {
-    if (blob->heap) blob->ptr = realloc(blob->ptr, new_length);
-    else { printf("error: attempted to reallocate a stack blob!\n"); abort(); }
+    assert(blob->heap);
+    blob->ptr = realloc(blob->ptr, new_length);
 }
 
 RadixMemoryBlob RadixAbstract_SliceBlob(

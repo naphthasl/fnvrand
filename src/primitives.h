@@ -79,6 +79,8 @@
      * Allows you to modify the size of a blob in the heap. Make sure to check
      * if it's actually in the heap or not before calling this, though.
      * (Use RadixAbstract_GetBlobHeapStatus)
+     * 
+     * Attempting to realloc a non-heap blob will cause an assertion error.
      */
     void RadixAbstract_ResizeMallocBlob(
         RadixMemoryBlob *blob,
