@@ -5,6 +5,12 @@
  * 
  * Be careful when using the table. All of its keys, values and indexes are
  * stored in the heap, and you must manually destroy the table.
+ * 
+ * WARNING: When using any function that returns the key of a table element,
+ * DO NOT MUTATE THE KEY. If you change the contents of a key blob without
+ * calling RadixTable_ChangeKey, you will accidentally cause the key hash and
+ * key contents to lose sync. This WILL break everything! Not that you'd need
+ * to modify the key that much anyway.
  */
 
 #include <stdint.h>
