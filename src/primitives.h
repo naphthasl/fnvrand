@@ -131,7 +131,7 @@
     unsigned long long RadixAbstract_BlobContains(
         RadixMemoryBlob *haystack,
         RadixMemoryBlob *needle,
-        unsigned long long interval);
+        unsigned int interval);
 
     #define StrToBlob RadixAbstract_StrBlob
 

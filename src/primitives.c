@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "bool.h"
+#include "macros.h"
 
 typedef struct RadixMemoryBlob {
     unsigned long long length;
@@ -106,11 +107,15 @@ bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1)
 unsigned long long RadixAbstract_BlobContains(
     RadixMemoryBlob *haystack,
     RadixMemoryBlob *needle,
-    unsigned long long interval)
+    unsigned int interval)
 {
     RadixMemoryBlob buffer;
-    unsigned long long p;
-    for (p = 1; p < (RadixAbstract_GetBlobLength(haystack) + 1); p += interval)
+    long long p;
+    long long scanlength = MAX(0, (
+            (long long)RadixAbstract_GetBlobLength(haystack) + 1
+        ) - ((long long)RadixAbstract_GetBlobLength(needle) - 1));
+
+    for (p = 1; p < scanlength; p += interval)
     {
         buffer = RadixAbstract_SliceBlob(
             haystack, RadixAbstract_GetBlobLength(needle), p - 1);
