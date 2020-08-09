@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "primitives.h"
 
+/* Yes, creating a lookup table for all of this was easier than the more
+ * logical implementation. Also, I think this is faster to execute anyway.
+ */
 uint16_t u_chartohex[256] = {
     0x3030, 0x3130, 0x3230, 0x3330, 0x3430, 0x3530, 0x3630, 0x3730,
     0x3830, 0x3930, 0x4130, 0x4230, 0x4330, 0x4430, 0x4530, 0x4630,
