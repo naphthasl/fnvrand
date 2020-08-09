@@ -8,7 +8,7 @@ typedef struct cr_state {
 } cr_state;
 
 uint64_t cr_keygen(
-    RadixMemoryBlob *key,
+    RadixMemoryBlob key,
     uint64_t seed,
     register uint32_t iterations)
 {
@@ -36,7 +36,7 @@ uint8_t cr_operate_byte(uint8_t i, cr_state *state)
     return i ^= (uint8_t)fr_8noise(state->fkey);
 }
 
-void cr_encrypt_decrypt(RadixMemoryBlob *data, const uint64_t gkey)
+void cr_encrypt_decrypt(RadixMemoryBlob data, const uint64_t gkey)
 {
     register uint32_t numBytes = RadixAbstract_GetBlobLength(data);
     register uint8_t *dcstream = (uint8_t *)RadixAbstract_GetBlobPointer(data);

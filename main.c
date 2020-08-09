@@ -11,22 +11,22 @@ int main(int argc, char *argv[])
 {
     RadixTable test_table = RadixTable_New();
     RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("world"));
-    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, StrToBlob("hello"))));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixTable_GetItem(&test_table, StrToBlob("hello"))));
     RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("bar"));
-    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, StrToBlob("hello"))));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixTable_GetItem(&test_table, StrToBlob("hello"))));
     RadixTable_DestroyItem(&test_table, StrToBlob("hello"));
     RadixTable_DestroyTable(&test_table);
 
     RadixMemoryBlob haystack = StrToBlob("hello world");
     RadixMemoryBlob needle = StrToBlob("o wo");
-    printf("Contains: %llu \n", RadixAbstract_BlobContains(&haystack, &needle, 4));
+    printf("Contains: %llu \n", RadixAbstract_BlobContains(haystack, needle, 4));
 
     uint64_t kts = fnv2r64("Tast", 4);
     printf("KTS: "); u_printmemhex(&kts, 8); printf("\n");
 
     char *key = "readytogo";
     RadixMemoryBlob bkey = (RadixAbstract_ConstructPointerBlob(key, strlen(key)));
-    uint64_t hkey = cr_keygen(&bkey, (uint64_t)time(0), 16777216);
+    uint64_t hkey = cr_keygen(bkey, (uint64_t)time(0), 16777216);
     printf("KEY: %016llX\n", (long long unsigned int)hkey);
 
     if (argc < 2)
@@ -43,10 +43,10 @@ int main(int argc, char *argv[])
         printf("IN : "); u_printmemhex(argv[i], length); printf("\n");
 
         bdata = RadixAbstract_ConstructPointerBlob(argv[i], length);
-        cr_encrypt_decrypt(&bdata, hkey);
+        cr_encrypt_decrypt(bdata, hkey);
         printf("ENC: "); u_printmemhex(argv[i], length); printf("\n");
 
-        cr_encrypt_decrypt(&bdata, hkey);
+        cr_encrypt_decrypt(bdata, hkey);
         printf("DEC: "); u_printmemhex(argv[i], length); printf("\n");
 
         RadixAbstract_DestroyBlob(&bdata);

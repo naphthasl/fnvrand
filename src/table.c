@@ -37,7 +37,7 @@ uint64_t RadixTable_HashKey(RadixMemoryBlob key)
      * It may be worth swapping this out for xxHash or SIPHASH24 or something.
      * (I think Python maybe uses SIPHASH???)
      */
-    { return RadixAbstract_fnv2r_64(&key); }
+    { return RadixAbstract_fnv2r_64(key); }
 
 /* Table initialization */
 
@@ -142,7 +142,7 @@ void RadixTable_SetItem(
         element->next_element = NULL;
         // Create the new key hash
         element->keyHash = RadixTable_HashKey(key);
-        element->key = RadixAbstract_MallocCopy(&key);
+        element->key = RadixAbstract_MallocCopy(key);
 
         table->length++;
     } else {
@@ -151,7 +151,7 @@ void RadixTable_SetItem(
     }
 
     // Malloc a new blob for the value to isolate the table.
-    element->value = RadixAbstract_MallocCopy(&value);
+    element->value = RadixAbstract_MallocCopy(value);
 }
 
 bool RadixTable_ChangeKey(
@@ -165,7 +165,7 @@ bool RadixTable_ChangeKey(
     
     RadixAbstract_DestroyBlob(&(element->key));
     element->keyHash = RadixTable_HashKey(new_key);
-    element->key = RadixAbstract_MallocCopy(&new_key);
+    element->key = RadixAbstract_MallocCopy(new_key);
 
     return true;
 }
@@ -234,7 +234,7 @@ RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
 
     while ((element = RadixTable_KeyIteratorGet(&keys)))
     {
-        if (RadixAbstract_BlobEquals(&value, &(element->value)))
+        if (RadixAbstract_BlobEquals(value, (element->value)))
             return &(element->key);
 
         RadixTable_KeyIteratorNext(&keys);

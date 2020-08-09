@@ -38,7 +38,7 @@ uint64_t fnv2r64(const void *data, uint32_t numBytes)
     return ((uint64_t)unfolded) ^ ((uint64_t)(unfolded >> 64));
 }
 
-uint64_t RadixAbstract_fnv1a_64(RadixMemoryBlob *data)
-{ return fnv1a64(data->ptr, data->length); }
-uint64_t RadixAbstract_fnv2r_64(RadixMemoryBlob *data)
-{ return fnv2r64(data->ptr, data->length); }
+uint64_t RadixAbstract_fnv1a_64(RadixMemoryBlob data)
+{ return fnv1a64(data.ptr, data.length); }
+uint64_t RadixAbstract_fnv2r_64(RadixMemoryBlob data)
+{ return fnv2r64(data.ptr, data.length); }

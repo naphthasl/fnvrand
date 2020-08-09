@@ -24,7 +24,7 @@
      * Do NOT forget to destroy it with RadixAbstract_DestroyBlob when you are
      * done.
      */
-    RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob *data);
+    RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob data);
 
     #include "hex.c"
 #endif

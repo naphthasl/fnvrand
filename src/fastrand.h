@@ -29,7 +29,7 @@
      * Fills a blob with random data in-place. Can take a seed as an argument.
      * Does not create a new blob, original data will be overwritten.
      */
-    void RadixAbstract_RandomizeBlob(RadixMemoryBlob *blob, uint64_t seed);
+    void RadixAbstract_RandomizeBlob(RadixMemoryBlob blob, uint64_t seed);
 
     /* -- fr_uniquerandom --
      * Returns a completely unique random integer (no seed) using rand() in

@@ -23,7 +23,7 @@
      * iterations. Recommended iteration count is 16777216.
      */
     uint64_t cr_keygen(
-        RadixMemoryBlob *key,
+        RadixMemoryBlob key,
         uint64_t seed,
         register uint32_t iterations);
 
@@ -43,7 +43,7 @@
      * Encrypts or decrypts a given block in-place. Requires a key generated
      * with cr_keygen.
      */
-    void cr_encrypt_decrypt(RadixMemoryBlob *data, const uint64_t gkey);
+    void cr_encrypt_decrypt(RadixMemoryBlob data, const uint64_t gkey);
 
     #include "crypt.c"
 #endif

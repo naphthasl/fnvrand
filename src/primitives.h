@@ -38,7 +38,7 @@
      * and RadixAbstract_MallocBlob.
      */
     RadixMemoryBlob RadixAbstract_SliceBlob(
-        RadixMemoryBlob *blob,
+        RadixMemoryBlob blob,
         unsigned long long offset,
         unsigned long long length);
 
@@ -47,20 +47,20 @@
      * in the target blob. Does not grow the blob automatically.
      */
     void RadixAbstract_InsertBlob(
-        RadixMemoryBlob *source,
-        RadixMemoryBlob *target,
+        RadixMemoryBlob source,
+        RadixMemoryBlob target,
         unsigned long long target_offset);
 
     /* -- RadixAbstract_GetBlobLength --
      * Returns the length of a blob. Useful for manipulation purposes.
      */
-    unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob);
+    unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob blob);
 
     /* -- RadixAbstract_GetBlobPointer --
      * Returns the pointer for the start of the blob. Useful for reading and
      * writing to the blob.
      */
-    void * RadixAbstract_GetBlobPointer(RadixMemoryBlob *blob);
+    void * RadixAbstract_GetBlobPointer(RadixMemoryBlob blob);
 
     /* -- RadixAbstract_DestroyBlob --
      * Removes the blob from memory. This is neccessary for any malloc'd blobs.
@@ -73,7 +73,7 @@
      * Allows you to check if a blob is stored within the heap or not. This
      * lets you check if you can do things like reallocating the blob.
      */
-    bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob *blob);
+    bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob blob);
 
     /* -- RadixAbstract_ResizeMallocBlob --
      * Allows you to modify the size of a blob in the heap. Make sure to check
@@ -90,7 +90,7 @@
      * Returns true is a blob has been destroyed and false if it is still
      * consuming memory.
      */
-    bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob *blob);
+    bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob blob);
 
     /* -- RadixAbstract_StrBlob --
      * Automatically forms blobs out of strings using strlen(). Can be used
@@ -102,13 +102,13 @@
      * Returns a copy of the source blob, automatically created with malloc
      * and memcpy.
      */
-    RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob *src);
+    RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob src);
 
     /* -- RadixAbstract_BlobEmpty --
      * Returns true if a given blob has a length of 0, and false if it does
      * not.
      */
-    bool RadixAbstract_BlobEmpty(RadixMemoryBlob *blob);
+    bool RadixAbstract_BlobEmpty(RadixMemoryBlob blob);
 
     /* -- RadixAbstract_BlobEquals --
      * Compares two blobs. If they have mismatching sizes, returns false.
@@ -116,7 +116,7 @@
      * If their contents are both identical, returns true.
      * If their lengths are both zero, returns true.
      */
-    bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1);
+    bool RadixAbstract_BlobEquals(RadixMemoryBlob b0, RadixMemoryBlob b1);
 
     /* -- RadixAbstract_BlobContains --
      * Returns the first occurrence of needle in the haystack. The returned
@@ -129,8 +129,8 @@
      * contains a specific uint32_t value.)
      */
     unsigned long long RadixAbstract_BlobContains(
-        RadixMemoryBlob *haystack,
-        RadixMemoryBlob *needle,
+        RadixMemoryBlob haystack,
+        RadixMemoryBlob needle,
         unsigned int interval);
 
     #define StrToBlob RadixAbstract_StrBlob

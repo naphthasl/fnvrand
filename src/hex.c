@@ -55,7 +55,7 @@ void u_printmemhex(const void *src, register uint64_t numSrcBytes)
     free(str);
 }
 
-RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob *data)
+RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob data)
 {
     unsigned long long length = RadixAbstract_GetBlobLength(data);
 

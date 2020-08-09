@@ -85,7 +85,7 @@ uint8_t fr_8noise(uint8_t seed)
     return fragments;
 }
 
-void RadixAbstract_RandomizeBlob(RadixMemoryBlob *blob, uint64_t seed)
+void RadixAbstract_RandomizeBlob(RadixMemoryBlob blob, uint64_t seed)
 {
     fr_genkeystream(
         RadixAbstract_GetBlobPointer(blob),

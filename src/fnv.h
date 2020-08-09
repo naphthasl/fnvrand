@@ -21,14 +21,14 @@
      * Returns an unsigned 64-bit hash of a RadixMemoryBlob, using the standard
      * FNV-1a algorithm.
      */
-    uint64_t RadixAbstract_fnv1a_64(RadixMemoryBlob *data);
+    uint64_t RadixAbstract_fnv1a_64(RadixMemoryBlob data);
 
     /* -- RadixAbstract_fnv2r_64 --
      * Returns an unsigned 64-bit hash of a RadixMemoryBlob, using a slightly
      * more advanced approach to FNV, including 128-bit XOR folding and
      * increased input noise.
      */
-    uint64_t RadixAbstract_fnv2r_64(RadixMemoryBlob *data);
+    uint64_t RadixAbstract_fnv2r_64(RadixMemoryBlob data);
 
     #include "fnv.c"
 #endif

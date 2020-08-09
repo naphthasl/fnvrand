@@ -33,30 +33,30 @@ void RadixAbstract_ResizeMallocBlob(
 }
 
 RadixMemoryBlob RadixAbstract_SliceBlob(
-    RadixMemoryBlob *blob,
+    RadixMemoryBlob blob,
     unsigned long long offset,
     unsigned long long length)
 {
     RadixMemoryBlob temp = RadixAbstract_ConstructPointerBlob(
-        (blob->ptr)+offset, length);
-    temp.heap = blob->heap;
+        (blob.ptr)+offset, length);
+    temp.heap = blob.heap;
     return temp;
 }
 
 void RadixAbstract_InsertBlob(
-    RadixMemoryBlob *source,
-    RadixMemoryBlob *target,
+    RadixMemoryBlob source,
+    RadixMemoryBlob target,
     unsigned long long target_offset)
-    { memcpy((target->ptr)+target_offset, source->ptr, source->length); }
+    { memcpy((target.ptr)+target_offset, source.ptr, source.length); }
 
-unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob *blob)
-    { return blob->length; }
+unsigned long long RadixAbstract_GetBlobLength(RadixMemoryBlob blob)
+    { return blob.length; }
 
-void * RadixAbstract_GetBlobPointer(RadixMemoryBlob *blob)
-    { return blob->ptr; }
+void * RadixAbstract_GetBlobPointer(RadixMemoryBlob blob)
+    { return blob.ptr; }
 
-bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob *blob)
-    { return blob->heap; }
+bool RadixAbstract_GetBlobHeapStatus(RadixMemoryBlob blob)
+    { return blob.heap; }
 
 void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
 {
@@ -68,26 +68,26 @@ void RadixAbstract_DestroyBlob(RadixMemoryBlob *blob)
     blob->length = 0;
 }
 
-bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob *blob)
-    { return blob->destroyed; }
+bool RadixAbstract_BlobIsDestroyed(RadixMemoryBlob blob)
+    { return blob.destroyed; }
 
 RadixMemoryBlob RadixAbstract_StrBlob(void *dest)
     { return RadixAbstract_ConstructPointerBlob(dest, strlen(dest)); }
 
-RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob *src)
+RadixMemoryBlob RadixAbstract_MallocCopy(RadixMemoryBlob src)
 {
     RadixMemoryBlob temp = RadixAbstract_MallocBlob(
         RadixAbstract_GetBlobLength(src));
 
-    RadixAbstract_InsertBlob(src, &temp, 0);
+    RadixAbstract_InsertBlob(src, temp, 0);
 
     return temp;
 }
 
-bool RadixAbstract_BlobEmpty(RadixMemoryBlob *blob)
+bool RadixAbstract_BlobEmpty(RadixMemoryBlob blob)
     { return (!RadixAbstract_GetBlobLength(blob)) ? true : false; }
 
-bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1)
+bool RadixAbstract_BlobEquals(RadixMemoryBlob b0, RadixMemoryBlob b1)
 {
     unsigned long long toCompare = RadixAbstract_GetBlobLength(b0);
     if (toCompare != RadixAbstract_GetBlobLength(b1)) return false;
@@ -104,8 +104,8 @@ bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1)
 }
 
 unsigned long long RadixAbstract_BlobContains(
-    RadixMemoryBlob *haystack,
-    RadixMemoryBlob *needle,
+    RadixMemoryBlob haystack,
+    RadixMemoryBlob needle,
     unsigned int interval)
 {
     RadixMemoryBlob buffer;
@@ -121,7 +121,7 @@ unsigned long long RadixAbstract_BlobContains(
         buffer = RadixAbstract_SliceBlob(
             haystack, p, RadixAbstract_GetBlobLength(needle));
 
-        if (RadixAbstract_BlobEquals(&buffer, needle)) return p + 1;
+        if (RadixAbstract_BlobEquals(buffer, needle)) return p + 1;
     }
 
     return 0;
