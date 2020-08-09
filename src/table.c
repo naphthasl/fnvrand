@@ -177,3 +177,19 @@ void RadixTable_DestroyTable(RadixTable *table)
     table->first_element = NULL;
     table->length = 0;
 }
+
+RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
+{
+    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
+    RadixTableElement *element;
+
+    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    {
+        if (RadixAbstract_BlobEquals(&value, &(element->value)))
+            return &(element->key);
+
+        RadixTable_KeyIteratorNext(&keys);
+    }
+
+    return NULL;
+}

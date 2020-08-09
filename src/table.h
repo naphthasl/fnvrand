@@ -112,5 +112,15 @@
      */
     void RadixTable_DestroyTable(RadixTable *table);
 
+    /* -- RadixTable_ValueGet --
+     * Searches the table by value and returns the first key that matches the
+     * specified value. This is much slower than getting by key.
+     * 
+     * Will return a null pointer if no value is found.
+     */
+    RadixMemoryBlob * RadixTable_ValueGet(
+        RadixTable *table,
+        RadixMemoryBlob value);
+
     #include "table.c"
 #endif
