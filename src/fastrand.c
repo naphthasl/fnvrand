@@ -1,4 +1,7 @@
 #include <math.h>
+#include <stdlib.h>
+#include <assert.h>
+#include "primitives.h"
 
 uint8_t fr_lookup0[256] = {
     0x20, 0x35, 0xFE, 0x22, 0x56, 0xA3, 0xB1, 0x65, 0x42, 0xCC, 0x0A, 0x62,
@@ -80,4 +83,29 @@ uint8_t fr_8noise(uint8_t seed)
     uint8_t fragments;
     (void)fr_genkeystream(&fragments, seed, 1);
     return fragments;
+}
+
+RadixMemoryBlob RadixAbstract_RandomBlob(uint32_t length, uint64_t seed)
+{
+    RadixMemoryBlob dest = RadixAbstract_MallocBlob(length);
+    fr_genkeystream(dest.ptr, seed, length);
+
+    return dest;
+}
+
+int fr_uniquerandom(int n) {
+    if ((n - 1) == RAND_MAX) {
+        return rand();
+    } else {
+        assert (n <= RAND_MAX);
+
+        int end = RAND_MAX / n;
+        assert (end > 0);
+        end *= n;
+
+        int r;
+        while ((r = rand()) >= end);
+
+        return r % n;
+    }
 }
