@@ -76,18 +76,18 @@ void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
 
 RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
 {
-    RadixTableElement *element = (table->first_element);
+    uint64_t hkey;
 
-    if (!element) return NULL;
+    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
+    RadixTableElement *element;
 
-    uint64_t hkey = RadixTable_HashKey(key);
+    if (RadixTable_KeyIteratorGet(&keys)) hkey = RadixTable_HashKey(key);
 
-    do
+    while ((element = RadixTable_KeyIteratorGet(&keys)))
     {
         if (element->keyHash == hkey) return element;
-        element = element->next_element;
+        RadixTable_KeyIteratorNext(&keys);
     }
-    while (element->next_element);
 
     return NULL;
 }
