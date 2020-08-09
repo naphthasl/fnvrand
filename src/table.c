@@ -21,9 +21,7 @@ typedef struct RadixTableKeyIterator {
 } RadixTableKeyIterator;
 
 uint64_t RadixTable_HashKey(RadixMemoryBlob key)
-{
-    return RadixAbstract_fnv2r_64(&key);
-}
+    { return RadixAbstract_fnv2r_64(&key); }
 
 RadixTable RadixTable_New()
     {RadixTable table = {0, 0}; return table;}
@@ -44,16 +42,13 @@ RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
 {
     RadixTableElement *element = (table->first_element);
 
-    if (!element)
-        return NULL;
+    if (!element) return NULL;
 
     uint64_t hkey = RadixTable_HashKey(key);
 
     do
     {
-        if (element->keyHash == hkey)
-            return element;
-
+        if (element->keyHash == hkey) return element;
         element = element->next_element;
     }
     while (element->next_element);
@@ -101,9 +96,7 @@ void RadixTable_SetItem(
         element->key = RadixAbstract_MallocCopy(&key);
 
         table->length++;
-    } else {
-        RadixAbstract_DestroyBlob(&(element->value));
-    }
+    } else { RadixAbstract_DestroyBlob(&(element->value)); }
 
     element->value = RadixAbstract_MallocCopy(&value);
 }
@@ -115,8 +108,7 @@ bool RadixTable_ChangeKey(
 {
     RadixTableElement *element = RadixTable_Find(table, key);
 
-    if (!element)
-        return false;
+    if (!element) return false;
     
     RadixAbstract_DestroyBlob(&(element->key));
     element->keyHash = RadixTable_HashKey(new_key);
