@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "util.h"
+#include "bool.h"
 
 typedef struct RadixMemoryBlob {
     unsigned long long length;

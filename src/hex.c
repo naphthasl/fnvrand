@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "primitives.h"
 
 uint16_t u_chartohex[256] = {
     0x3030, 0x3130, 0x3230, 0x3330, 0x3430, 0x3530, 0x3630, 0x3730,
@@ -49,4 +50,14 @@ void u_printmemhex(const void *src, register uint64_t numSrcBytes)
     u_memtohex(str, src, numSrcBytes);
     printf("%s", str);
     free(str);
+}
+
+RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob *data)
+{
+    unsigned long long length = RadixAbstract_GetBlobLength(data);
+
+    RadixMemoryBlob dest = RadixAbstract_MallocBlob(2 * length);
+    u_memtohex(dest.ptr, RadixAbstract_GetBlobPointer(data), length);
+
+    return dest;
 }

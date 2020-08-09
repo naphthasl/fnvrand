@@ -6,6 +6,7 @@
  * Among these is the RadixMemoryBlob, which itends to make manipulation of
  * data in memory easier, as well as memory management and bounds checking.
  */
+#include "bool.h"
 
 #ifndef FPRIM_HEADER_FILE
 #define FPRIM_HEADER_FILE
