@@ -102,3 +102,21 @@ bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1)
 
     return true;
 }
+
+unsigned long long RadixAbstract_BlobContains(
+    RadixMemoryBlob *haystack,
+    RadixMemoryBlob *needle,
+    unsigned long long interval)
+{
+    RadixMemoryBlob buffer;
+    unsigned long long p;
+    for (p = 1; p < (RadixAbstract_GetBlobLength(haystack) + 1); p += interval)
+    {
+        buffer = RadixAbstract_SliceBlob(
+            haystack, RadixAbstract_GetBlobLength(needle), p - 1);
+
+        if (RadixAbstract_BlobEquals(&buffer, needle)) return p;
+    }
+
+    return 0;
+}

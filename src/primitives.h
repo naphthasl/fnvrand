@@ -118,6 +118,21 @@
      */
     bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1);
 
+    /* -- RadixAbstract_BlobContains --
+     * Returns the first occurrence of needle in the haystack. The returned
+     * position is the offset + 1. This is done because a return value of 0
+     * means that the needle was not present in the haystack.
+     * 
+     * The interval argument should usually be set to 1 (perform a check
+     * every single byte), but the larger the interval, the more bytes will be
+     * skipped (e.g an interval of 4 will allow you to check if a blob
+     * contains a specific uint32_t value.)
+     */
+    unsigned long long RadixAbstract_BlobContains(
+        RadixMemoryBlob *haystack,
+        RadixMemoryBlob *needle,
+        unsigned long long interval);
+
     #define StrToBlob RadixAbstract_StrBlob
 
     #include "primitives.c"
