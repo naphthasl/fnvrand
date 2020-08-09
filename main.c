@@ -10,11 +10,11 @@
 int main(int argc, char *argv[])
 {
     RadixTable test_table = RadixTable_New();
-    RadixTable_SetItem(&test_table, RadixAbstract_StrBlob("hello"), RadixAbstract_StrBlob("world"));
-    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, RadixAbstract_StrBlob("hello"))));
-    RadixTable_SetItem(&test_table, RadixAbstract_StrBlob("hello"), RadixAbstract_StrBlob("bar"));
-    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, RadixAbstract_StrBlob("hello"))));
-    RadixTable_DestroyItem(&test_table, RadixAbstract_StrBlob("hello"));
+    RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("world"));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, StrToBlob("hello"))));
+    RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("bar"));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(RadixTable_GetItem(&test_table, StrToBlob("hello"))));
+    RadixTable_DestroyItem(&test_table, StrToBlob("hello"));
     RadixTable_DestroyTable(&test_table);
 
     uint64_t kts = fnv2r64("Tast", 4);

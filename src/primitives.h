@@ -118,5 +118,7 @@
      */
     bool RadixAbstract_BlobEquals(RadixMemoryBlob *b0, RadixMemoryBlob *b1);
 
+    #define StrToBlob RadixAbstract_StrBlob
+
     #include "primitives.c"
 #endif
