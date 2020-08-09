@@ -85,12 +85,12 @@ uint8_t fr_8noise(uint8_t seed)
     return fragments;
 }
 
-RadixMemoryBlob RadixAbstract_RandomBlob(uint32_t length, uint64_t seed)
+void RadixAbstract_RandomizeBlob(RadixMemoryBlob *blob, uint64_t seed)
 {
-    RadixMemoryBlob dest = RadixAbstract_MallocBlob(length);
-    fr_genkeystream(dest.ptr, seed, length);
-
-    return dest;
+    fr_genkeystream(
+        RadixAbstract_GetBlobPointer(blob),
+        seed,
+        RadixAbstract_GetBlobLength(blob));
 }
 
 int fr_uniquerandom(int n) {

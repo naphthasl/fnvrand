@@ -25,16 +25,11 @@
      */
     uint8_t  fr_8noise (uint8_t  seed);
 
-    /* -- RadixAbstract_RandomBlob --
-     * Returns a new blob containing completely random data, taking the blob
-     * length and a seed to use for random number generation as an argument.
-     * 
-     * This function mallocates a blob of given length.
-     * 
-     * Do NOT forget to destroy it with RadixAbstract_DestroyBlob when you are
-     * done.
+    /* -- RadixAbstract_RandomizeBlob --
+     * Fills a blob with random data in-place. Can take a seed as an argument.
+     * Does not create a new blob, original data will be overwritten.
      */
-    RadixMemoryBlob RadixAbstract_RandomBlob(uint32_t length, uint64_t seed);
+    void RadixAbstract_RandomizeBlob(RadixMemoryBlob *blob, uint64_t seed);
 
     /* -- fr_uniquerandom --
      * Returns a completely unique random integer (no seed) using rand() in
