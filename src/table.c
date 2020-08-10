@@ -21,14 +21,28 @@ typedef struct RadixTable {
     RadixTableElement *first_element;
 } RadixTable;
 
+typedef struct RadixTableIndex {
+    bool present;
+    unsigned long long index;
+} RadixTableIndex;
+
 typedef struct RadixTableKeyIterator {
     // Points back to the table, so you always know the source.
     RadixTable *table;
     // The current element that the iterator is hovering over.
     RadixTableElement *element;
-    // The current index the iterator is hovering over, starting from 1.
+    // The current index the iterator is hovering over, starting from 0.
     unsigned long long index;
 } RadixTableKeyIterator;
+
+typedef struct RadixTableQueryResult {
+    RadixTableElement *previous;
+    RadixTableIndex previous_index;
+    RadixTableElement *current;
+    RadixTableIndex current_index;
+    RadixTableElement *next;
+    RadixTableIndex next_index;
+} RadixTableQueryResult;
 
 /* Internal magic */
 
@@ -54,10 +68,15 @@ unsigned long long RadixTable_Length(RadixTable *table)
 /* Key iteration */
 
 RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table)
+{
     /* Create a key iterator - important, since it means you don't need to
      * create an array containing every key hash or something.
      */
-    { RadixTableKeyIterator ki = {table, table->first_element, 1}; return ki; }
+
+    RadixTableKeyIterator ki = {table, table->first_element, 0};
+    
+    return ki;
+}
 
 RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki)
     { return ki->element; }
@@ -73,31 +92,67 @@ void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
 
 /* Presence checking/Key to struct conversion */
 
-RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
+RadixTableQueryResult RadixTable_Query(
+    RadixTable *table,
+    char query_for,
+    RadixMemoryBlob *key,
+    RadixMemoryBlob *value,
+    unsigned long long index)
 {
-    uint64_t hkey;
-
-    // Create a new key iterator so that we can search the table
+    uint64_t hkey = 0;
+    if (query_for & QUERY_KEY)
+        hkey = RadixTable_HashKey(*key);
+    
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
-    RadixTableElement *element;
+    RadixTableQueryResult result;
+    bool found = false;
 
-    // Only calculate the hash if there are actually elements in the table
-    if (RadixTable_KeyIteratorGet(&keys)) hkey = RadixTable_HashKey(key);
+    while ((result.current = RadixTable_KeyIteratorGet(&keys)))
+    {   
+        result.current_index.present = BOOLIFY(result.current);
+        result.current_index.index = RadixTable_KeyIteratorIndex(&keys);
 
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
-    {
-        // Compare each key hash and return when found
-        if (element->keyHash == hkey) return element;
+        // This weird if structure allows you to query for multiple things
+        // simultaneously instead of making a single query.
+        // It's ugly, but it works. I swear.
+        if (query_for & QUERY_INDEX)
+            if (result.current_index.index == index && result.current_index.present) found = true;
+        if (query_for & QUERY_KEY)
+            if (result.current->keyHash == hkey) found = true;
+        if (query_for & QUERY_VALUE)
+            if (RadixAbstract_BlobEquals(result.current->value, *value)) found = true;
+
+        if (found)
+        {
+            RadixTable_KeyIteratorNext(&keys);
+            result.next = RadixTable_KeyIteratorGet(&keys);
+            result.next_index.present = BOOLIFY(result.next);
+            result.next_index.index = RadixTable_KeyIteratorIndex(&keys);
+
+            break;
+        }
+
+        result.previous = RadixTable_KeyIteratorGet(&keys);
+        result.previous_index.present = BOOLIFY(result.previous);
+        result.previous_index.index = RadixTable_KeyIteratorIndex(&keys);
         RadixTable_KeyIteratorNext(&keys);
     }
 
-    // Return null pointer if there are no matching keys
-    return NULL;
+    if (!found)
+    {
+        result.current = NULL;
+        result.current_index.present = false;
+    }
+
+    return result;
 }
+
+RadixTableElement * RadixTable_Find(RadixTable *table, RadixMemoryBlob key)
+    { return RadixTable_Query(table, QUERY_KEY, &key, NULL, 0).current; }
 
 bool RadixTable_In(RadixTable *table, RadixMemoryBlob key)
     // Converts RadixTable_Find to boolean form
-    { return (RadixTable_Find(table, key)) ? true : false; }
+    { return BOOLIFY(RadixTable_Find(table, key)); }
 
 /* Value retreival retrieval */
 

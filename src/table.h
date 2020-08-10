@@ -25,7 +25,16 @@
      */
     typedef struct RadixTableElement RadixTableElement;
     typedef struct RadixTable RadixTable;
+    typedef struct RadixTableIndex RadixTableIndex;
     typedef struct RadixTableKeyIterator RadixTableKeyIterator;
+    typedef struct RadixTableQueryResult RadixTableQueryResult;
+
+    /* Search by index, key or value */
+    enum RadixTableQueryFlags {
+        QUERY_INDEX = 1,
+        QUERY_KEY = 2,
+        QUERY_VALUE = 4
+    };
 
     /* -- RadixTable_HashKey --
      * Hashes a blob so it can be used to optimize key retrieval. You do not
