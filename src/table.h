@@ -33,7 +33,9 @@
     enum RadixTableQueryFlags {
         QUERY_INDEX = 1,
         QUERY_KEY = 2,
-        QUERY_VALUE = 4
+        QUERY_KEY_CONTAINS = 4,
+        QUERY_VALUE = 8,
+        QUERY_VALUE_CONTAINS = 16
     };
 
     /* -- RadixTable_HashKey --

@@ -123,8 +123,14 @@ RadixTableQueryResult RadixTable_Query(
                 result.current_index.present) result.found = true;
         if (query_for & QUERY_KEY)
             if (result.current->keyHash == hkey) result.found = true;
+        if (query_for & QUERY_KEY_CONTAINS)
+            if (RadixAbstract_BlobContains(result.current->key, *key, 1))
+                result.found = true;
         if (query_for & QUERY_VALUE)
             if (RadixAbstract_BlobEquals(result.current->value, *value))
+                result.found = true;
+        if (query_for & QUERY_VALUE_CONTAINS)
+            if (RadixAbstract_BlobContains(result.current->value, *value, 1))
                 result.found = true;
 
         if (result.found)
