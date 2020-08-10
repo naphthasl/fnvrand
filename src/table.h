@@ -73,6 +73,21 @@
      */
     void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki);
 
+    /* -- RadixTable_Query --
+     * An absolutely horrifying function that allows you to search for anything
+     * at all in the table. query_for must be in the format of
+     * RadixTableQueryFlags (e.g QUERY_INDEX | QUERY_KEY). You may set the key
+     * and value arguments to null pointers when they are not in use.
+     * Index may be 0 if not in use, but if QUERY_INDEX is specified, then 0
+     * will be the first element in the table.
+     */
+    RadixTableQueryResult RadixTable_Query(
+        RadixTable *table,
+        char query_for,
+        RadixMemoryBlob *key,
+        RadixMemoryBlob *value,
+        unsigned long long index);
+
     /* -- RadixTable_Find --
      * Iterates over the whole table and returns a RadixTableElement pointer
      * that corresponds to the specified key.
@@ -145,8 +160,7 @@
         RadixMemoryBlob value);
 
     /* -- RadixTable_KeyByIndex --
-     * Return the key blob for a given index in the table. Indexes start at 1,
-     * not 0.
+     * Return the key blob for a given index in the table.
      * 
      * Returns a null pointer if no key is found at that index.
      */
@@ -155,13 +169,16 @@
         unsigned long long index);
 
     /* -- RadixTable_IndexByKey --
-     * Return the index of a given key in the table. Indexes start at 1, not 0.
-     * 
-     * Will return 0 if the key doesn't exist.
+     * Return the index of a given key in the table. Returned in the form of a
+     * RadixTableIndex, which means you can check if it is present with
+     * returnval.present.
      */
-    unsigned long long RadixTable_IndexByKey(
+    RadixTableIndex RadixTable_IndexByKey(
         RadixTable *table,
         RadixMemoryBlob key);
+
+    bool RadixTable_IndexStructExists(RadixTableIndex index);
+    unsigned long long RadixTable_IndexStructPosition(RadixTableIndex index);
 
     /* -- RadixTable_Update --
      * Copy each element in the source table to the destination table.

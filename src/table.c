@@ -36,6 +36,7 @@ typedef struct RadixTableKeyIterator {
 } RadixTableKeyIterator;
 
 typedef struct RadixTableQueryResult {
+    bool found;
     RadixTableElement *previous;
     RadixTableIndex previous_index;
     RadixTableElement *current;
@@ -99,16 +100,18 @@ RadixTableQueryResult RadixTable_Query(
     RadixMemoryBlob *value,
     unsigned long long index)
 {
+    // If we're even looking for the key, create hash for optimized querying.
     uint64_t hkey = 0;
     if (query_for & QUERY_KEY)
         hkey = RadixTable_HashKey(*key);
     
+    // Begin the key iterator.
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
     RadixTableQueryResult result;
-    bool found = false;
 
     while ((result.current = RadixTable_KeyIteratorGet(&keys)))
     {   
+        // Gather index info for the current element.
         result.current_index.present = BOOLIFY(result.current);
         result.current_index.index = RadixTable_KeyIteratorIndex(&keys);
 
@@ -116,14 +119,17 @@ RadixTableQueryResult RadixTable_Query(
         // simultaneously instead of making a single query.
         // It's ugly, but it works. I swear.
         if (query_for & QUERY_INDEX)
-            if (result.current_index.index == index && result.current_index.present) found = true;
+            if (result.current_index.index == index &&
+                result.current_index.present) result.found = true;
         if (query_for & QUERY_KEY)
-            if (result.current->keyHash == hkey) found = true;
+            if (result.current->keyHash == hkey) result.found = true;
         if (query_for & QUERY_VALUE)
-            if (RadixAbstract_BlobEquals(result.current->value, *value)) found = true;
+            if (RadixAbstract_BlobEquals(result.current->value, *value))
+                result.found = true;
 
-        if (found)
+        if (result.found)
         {
+            // If found, get the very next element, store it, then break.
             RadixTable_KeyIteratorNext(&keys);
             result.next = RadixTable_KeyIteratorGet(&keys);
             result.next_index.present = BOOLIFY(result.next);
@@ -132,13 +138,14 @@ RadixTableQueryResult RadixTable_Query(
             break;
         }
 
+        // If not found, remember the previous element and move on to the next.
         result.previous = RadixTable_KeyIteratorGet(&keys);
         result.previous_index.present = BOOLIFY(result.previous);
         result.previous_index.index = RadixTable_KeyIteratorIndex(&keys);
         RadixTable_KeyIteratorNext(&keys);
     }
 
-    if (!found)
+    if (!result.found)
     {
         result.current = NULL;
         result.current_index.present = false;
@@ -229,37 +236,23 @@ bool RadixTable_ChangeKey(
 
 bool RadixTable_DestroyItem(RadixTable *table, RadixMemoryBlob key)
 {
-    uint64_t hkey = RadixTable_HashKey(key);
-    
-    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
-    RadixTableElement *previous_element = NULL;
-    RadixTableElement *element;
-    RadixTableElement *next_element;
+    RadixTableQueryResult query = RadixTable_Query(
+        table, QUERY_KEY, &key, NULL, 0);
 
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
-    {
-        RadixTable_KeyIteratorNext(&keys);
+    if (!query.found)
+        return false;
 
-        if (element->keyHash == hkey)
-        {
-            next_element = RadixTable_KeyIteratorGet(&keys);
+    if (query.previous)
+        query.previous->next_element = query.next;
+    else table->first_element = query.next;
 
-            RadixAbstract_DestroyBlob(&(element->key));
-            RadixAbstract_DestroyBlob(&(element->value));
-            free(element);
+    RadixAbstract_DestroyBlob(&(query.current->key));
+    RadixAbstract_DestroyBlob(&(query.current->value));
+    free(query.current);
 
-            if (previous_element)
-                previous_element->next_element = next_element;
-            else table->first_element = NULL;
+    table->length--;
 
-            table->length--;
-            return true;
-        }
-
-        previous_element = RadixTable_KeyIteratorGet(&keys);
-    }
-
-    return false;
+    return true;
 }
 
 void RadixTable_DestroyTable(RadixTable *table)
@@ -284,18 +277,8 @@ void RadixTable_DestroyTable(RadixTable *table)
 
 RadixMemoryBlob * RadixTable_ValueGet(RadixTable *table, RadixMemoryBlob value)
 {
-    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
-    RadixTableElement *element;
-
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
-    {
-        if (RadixAbstract_BlobEquals(value, (element->value)))
-            return &(element->key);
-
-        RadixTable_KeyIteratorNext(&keys);
-    }
-
-    return NULL;
+    return &(RadixTable_Query(
+        table, QUERY_VALUE, NULL, &value, 0).current->key);
 }
 
 /* Index manipulation */
@@ -304,39 +287,22 @@ RadixMemoryBlob * RadixTable_KeyByIndex(
     RadixTable *table,
     unsigned long long index)
 {
-    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
-    RadixTableElement *element;
-
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
-    {
-        if (RadixTable_KeyIteratorIndex(&keys) >= index)
-            return &(element->key);
-
-        RadixTable_KeyIteratorNext(&keys);
-    }
-
-    return NULL;
+    return &(RadixTable_Query(
+        table, QUERY_INDEX, NULL, NULL, index).current->key);
 }
 
-unsigned long long RadixTable_IndexByKey(
+RadixTableIndex RadixTable_IndexByKey(
     RadixTable *table,
     RadixMemoryBlob key)
 {
-    RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
-    RadixTableElement *element;
-
-    uint64_t hkey = RadixTable_HashKey(key);
-
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
-    {
-        if (element->keyHash == hkey)
-            return RadixTable_KeyIteratorIndex(&keys);
-        
-        RadixTable_KeyIteratorNext(&keys);
-    }
-
-    return 0;
+    return RadixTable_Query(table, QUERY_KEY, &key, NULL, 0).current_index;
 }
+
+bool RadixTable_IndexStructExists(RadixTableIndex index)
+    { return index.present; }
+
+unsigned long long RadixTable_IndexStructPosition(RadixTableIndex index)
+    { return index.index; }
 
 /* Pythonic updates */
 
