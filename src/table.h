@@ -28,6 +28,7 @@
     typedef struct RadixTableIndex RadixTableIndex;
     typedef struct RadixTableKeyIterator RadixTableKeyIterator;
     typedef struct RadixTableQueryResult RadixTableQueryResult;
+    typedef struct RadixTableQuery RadixTableQuery;
 
     /* Search by index, key or value */
     enum RadixTableQueryFlags {
@@ -65,6 +66,20 @@
      */
     RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki);
 
+    /* -- RadixTable_KeyIteratorPrev --
+     * Get the previous element accessed by the key iterator. Null pointer if
+     * there is no previous element.
+     */
+    RadixTableElement * RadixTable_KeyIteratorGetPrev(
+        RadixTableKeyIterator *ki);
+
+    /* -- RadixTable_KeyIteratorNext --
+     * Get the next element the key iterator is about to access. Null pointer
+     * if there is no next element.
+     */
+    RadixTableElement * RadixTable_KeyIteratorGetNext(
+        RadixTableKeyIterator *ki);
+
     /* -- RadixTable_KeyIteratorIndex --
      * Return the current index of the key iterator. Starts at 1, not 0.
      */
@@ -75,20 +90,44 @@
      */
     void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki);
 
-    /* -- RadixTable_Query --
-     * An absolutely horrifying function that allows you to search for anything
-     * at all in the table. query_for must be in the format of
-     * RadixTableQueryFlags (e.g QUERY_INDEX | QUERY_KEY). You may set the key
+    /* -- RadixTable_KeyIteratorNext --
+     * Returns true if the current element in the key iterator matches the
+     * given query. False if it doesn't.
+     */
+    bool RadixTable_KeyIteratorCheckElement(
+        RadixTableKeyIterator *ki,
+        RadixTableQuery *kq);
+
+    /* -- RadixTable_ConstructQuery --
+     * Allows you to construct a query that may be used to find items in a
+     * table with either RadixTable_Query or RadixTable_KeyIteratorCheckElement
+     * 
+     * Queries may be reused for multiple tables.
+     * 
+     * query_for must be in the format of RadixTableQueryFlags
+     * (e.g QUERY_INDEX | QUERY_KEY). You may set the key
      * and value arguments to null pointers when they are not in use.
      * Index may be 0 if not in use, but if QUERY_INDEX is specified, then 0
      * will be the first element in the table.
+     * 
+     * For more information about containsInterval, see the documentation for
+     * RadixAbstract_BlobContains. If you aren't using a *_CONTAINS value for
+     * query_for, you don't need to use it.
      */
-    RadixTableQueryResult RadixTable_Query(
-        RadixTable *table,
+    RadixTableQuery RadixTable_ConstructQuery(
         char query_for,
         RadixMemoryBlob *key,
         RadixMemoryBlob *value,
-        unsigned long long index);
+        unsigned long long index,
+        unsigned int containsInterval);
+
+    /* -- RadixTable_Query --
+     * Returns the first result of the given RadixTableQuery in the table.
+     * To get every result, use RadixTable_KeyIteratorCheckElement.
+     */
+    RadixTableQueryResult RadixTable_Query(
+        RadixTable *table,
+        RadixTableQuery query);
 
     /* -- RadixTable_Find --
      * Iterates over the whole table and returns a RadixTableElement pointer
