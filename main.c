@@ -11,10 +11,12 @@ int main(int argc, char *argv[])
 {
     RadixTable test_table = RadixTable_New();
     RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("world"));
+    RadixTable_SetItem(&test_table, StrToBlob("itw2"), StrToBlob("agjojeofoajgfjjj"));
     printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixTable_GetItem(&test_table, StrToBlob("hello"))));
     RadixTable_SetItem(&test_table, StrToBlob("hello"), StrToBlob("bar"));
     printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixTable_GetItem(&test_table, StrToBlob("hello"))));
     RadixTable_DestroyItem(&test_table, StrToBlob("hello"));
+    printf("TableTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixTable_GetItem(&test_table, StrToBlob("itw2"))));
     RadixTable_DestroyTable(&test_table);
 
     printf("Contains: %llu \n", RadixAbstract_BlobContains(StrToBlob("hello world"), StrToBlob("o wo"), 4));
