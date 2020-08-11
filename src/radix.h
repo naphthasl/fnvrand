@@ -20,4 +20,6 @@
     #include "fnv.h"
     #include "hex.h"
     #include "fracts.h"
+    #include "imath.h"
+    #include "vectors.h"
 #endif
