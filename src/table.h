@@ -18,6 +18,9 @@
 
 #ifndef FTABL_HEADER_FILE
 #define FTABL_HEADER_FILE
+    // IMPORTANT: Read this for query flags
+    #include "linked_shared.h"
+
     /* ## private structs ##
      * These are structures used internally to represent a table. You won't
      * have to interface with them yourself - you'll only have to use them as
@@ -43,11 +46,6 @@
 	    bool insert_at_end;
 	} RadixTable;
 
-	typedef struct RadixTableIndex {
-	    bool present;
-	    unsigned long long index;
-	} RadixTableIndex;
-
 	typedef struct RadixTableKeyIterator {
 	    // Points back to the table, so you always know the source.
 	    RadixTable *table;
@@ -64,7 +62,7 @@
 
 	typedef struct RadixTableQueryResult {
 	    bool found;
-	    RadixTableIndex index;
+	    RadixIndex index;
 	    RadixTableElement *previous;
 	    RadixTableElement *current;
 	    RadixTableElement *next;
@@ -78,9 +76,6 @@
 	    unsigned long long index;
 	    unsigned int containsInterval;
 	} RadixTableQuery;
-
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
 
     /* -- RadixTable_HashKey --
      * Hashes a blob so it can be used to optimize key retrieval. You do not
@@ -254,15 +249,12 @@
 
     /* -- RadixTable_IndexByKey --
      * Return the index of a given key in the table. Returned in the form of a
-     * RadixTableIndex, which means you can check if it is present with
+     * RadixIndex, which means you can check if it is present with
      * returnval.present.
      */
-    RadixTableIndex RadixTable_IndexByKey(
+    RadixIndex RadixTable_IndexByKey(
         RadixTable *table,
         RadixMemoryBlob key);
-
-    bool RadixTable_IndexStructExists(RadixTableIndex index);
-    unsigned long long RadixTable_IndexStructPosition(RadixTableIndex index);
 
     /* -- RadixTable_Update --
      * Copy each element in the source table to the destination table.

@@ -152,7 +152,7 @@ bool RadixList_ValueIn(RadixList *list, RadixMemoryBlob value)
 RadixMemoryBlob * RadixList_GetValue(RadixList *list, unsigned long long index)
     { return &(RadixList_FindIndex(list, index)->value); }
 
-RadixListIndex RadixList_GetIndex(RadixList *list, RadixMemoryBlob value)
+RadixIndex RadixList_GetIndex(RadixList *list, RadixMemoryBlob value)
 {
     RadixListQuery query = RadixList_ConstructQuery(
         QUERY_VALUE, &value, 0, 1);
@@ -267,12 +267,6 @@ void RadixList_DestroyList(RadixList *list)
     list->first_element = NULL;
     list->length = 0;
 }
-
-bool RadixList_IndexStructExists(RadixListIndex index)
-    { return index.present; }
-
-unsigned long long RadixList_IndexStructPosition(RadixListIndex index)
-    { return index.index; }
 
 void RadixList_Concatenate(RadixList *dest, RadixList *src, char side)
 {

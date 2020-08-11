@@ -304,7 +304,7 @@ RadixMemoryBlob * RadixTable_KeyByIndex(
     ).current->key);
 }
 
-RadixTableIndex RadixTable_IndexByKey(
+RadixIndex RadixTable_IndexByKey(
     RadixTable *table,
     RadixMemoryBlob key)
 {
@@ -312,12 +312,6 @@ RadixTableIndex RadixTable_IndexByKey(
         table, RadixTable_ConstructQuery(QUERY_KEY, &key, NULL, 0, 1)
     ).index;
 }
-
-bool RadixTable_IndexStructExists(RadixTableIndex index)
-    { return index.present; }
-
-unsigned long long RadixTable_IndexStructPosition(RadixTableIndex index)
-    { return index.index; }
 
 /* Pythonic updates */
 

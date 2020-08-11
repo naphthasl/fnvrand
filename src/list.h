@@ -4,6 +4,9 @@
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
+    // IMPORTANT: Read this for query flags
+    #include "linked_shared.h"
+
     /* ## private structs ##
      * These are structures used internally to represent a list. You won't
      * have to interface with them yourself - you'll only have to use them as
@@ -24,14 +27,6 @@
         RadixListElement *first_element;
         RadixListElement *last_element;
     } RadixList;
-
-    // A higher level index structure used to check if an index exists
-    // while keeping it starting from 0.
-    typedef struct RadixListIndex {
-        bool present;
-        unsigned long long index;
-        // See RadixList_IndexStructExists and RadixList_IndexStructPosition
-    } RadixListIndex;
 
     // List iterator for performing iterative operations on a list
     typedef struct RadixListIterator {
@@ -54,7 +49,7 @@
         // Was the query successful?
         bool found;
         // The index that the query succeeded on
-        RadixListIndex index;
+        RadixIndex index;
         // The previous element, successful element and next element
         RadixListElement *previous;
         RadixListElement *current;
@@ -79,9 +74,6 @@
         LIST_SIDE_LEFT = false,
         LIST_SIDE_RIGHT = true
     };
-
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
 
     // Create a new list
     RadixList RadixList_New();
@@ -146,7 +138,7 @@
         unsigned long long index);
 
     // Get an index by value, useful for Python-like remove()s.
-    RadixListIndex RadixList_GetIndex(RadixList *list, RadixMemoryBlob value);
+    RadixIndex RadixList_GetIndex(RadixList *list, RadixMemoryBlob value);
 
     // Set an existing index to the given value, returns false if the index
     // doesn't exist.
@@ -184,12 +176,6 @@
 
     // Destroy the entire list, completely dealloacting all the memory it uses.
     void RadixList_DestroyList(RadixList *list);
-
-    // Check if the index presented by a RadixListIndex struct exists.
-    bool RadixList_IndexStructExists(RadixListIndex index);
-
-    // Ditto, returns the position of a given RadixListIndex struct.
-    unsigned long long RadixList_IndexStructPosition(RadixListIndex index);
 
     // Concatenate two lists at the given side, specified by the
     // RadixListSides enum.
