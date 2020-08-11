@@ -41,18 +41,6 @@ RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table)
     return ki;
 }
 
-RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki)
-    { return ki->element; }
-
-RadixTableElement * RadixTable_KeyIteratorGetPrev(RadixTableKeyIterator *ki)
-    { return ki->previous; }
-
-RadixTableElement * RadixTable_KeyIteratorGetNext(RadixTableKeyIterator *ki)
-    { return ki->next; }
-
-unsigned long long RadixTable_KeyIteratorIndex(RadixTableKeyIterator *ki)
-    { return ki->index; }
-
 void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
 {
     // If the current element is not a null pointer, move up the linked list.
@@ -126,7 +114,7 @@ RadixTableQueryResult RadixTable_Query(
     result.found = false;
 
     // Check if the current element is not d e a d each iteration.
-    while ((result.current = RadixTable_KeyIteratorGet(&keys)))
+    while ((result.current = RadixIterator_Get(&keys)))
     {   
         if (RadixTable_KeyIteratorCheckElement(&keys, &query))
         {
@@ -134,9 +122,9 @@ RadixTableQueryResult RadixTable_Query(
              * elements.
              */
             result.index.present = BOOLIFY(result.current);
-            result.index.index = RadixTable_KeyIteratorIndex(&keys);
-            result.next = RadixTable_KeyIteratorGetNext(&keys);
-            result.previous = RadixTable_KeyIteratorGetPrev(&keys);
+            result.index.index = RadixIterator_GetIndex(&keys);
+            result.next = RadixIterator_GetNext(&keys);
+            result.previous = RadixIterator_GetPrev(&keys);
             result.found = true;
 
             break;
@@ -271,7 +259,7 @@ void RadixTable_DestroyTable(RadixTable *table)
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(table);
     RadixTableElement *element;
 
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    while ((element = RadixIterator_Get(&keys)))
     {
         RadixAbstract_DestroyBlob(&(element->key));
         RadixAbstract_DestroyBlob(&(element->value));
@@ -320,7 +308,7 @@ void RadixTable_Update(RadixTable *dest, RadixTable *src)
     RadixTableKeyIterator keys = RadixTable_NewKeyIterator(src);
     RadixTableElement *element;
 
-    while ((element = RadixTable_KeyIteratorGet(&keys)))
+    while ((element = RadixIterator_Get(&keys)))
     {
         RadixTable_SetItem(dest, element->key, element->value);
 

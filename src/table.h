@@ -99,30 +99,6 @@
      */
     RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table);
 
-    /* -- RadixTable_KeyIteratorGet --
-     * Get the current table element stored at the key iterator's current key.
-     */
-    RadixTableElement * RadixTable_KeyIteratorGet(RadixTableKeyIterator *ki);
-
-    /* -- RadixTable_KeyIteratorPrev --
-     * Get the previous element accessed by the key iterator. Null pointer if
-     * there is no previous element.
-     */
-    RadixTableElement * RadixTable_KeyIteratorGetPrev(
-        RadixTableKeyIterator *ki);
-
-    /* -- RadixTable_KeyIteratorNext --
-     * Get the next element the key iterator is about to access. Null pointer
-     * if there is no next element.
-     */
-    RadixTableElement * RadixTable_KeyIteratorGetNext(
-        RadixTableKeyIterator *ki);
-
-    /* -- RadixTable_KeyIteratorIndex --
-     * Return the current index of the key iterator. Starts at 1, not 0.
-     */
-    unsigned long long RadixTable_KeyIteratorIndex(RadixTableKeyIterator *ki);
-
     /* -- RadixTable_KeyIteratorNext --
      * Move the key iterator to the next key.
      */

@@ -29,18 +29,6 @@ RadixListIterator RadixList_NewIterator(RadixList *list)
     return ki;
 }
 
-RadixListElement * RadixList_IteratorGet(RadixListIterator *ki)
-    { return ki->element; }
-
-RadixListElement * RadixList_IteratorGetPrev(RadixListIterator *ki)
-    { return ki->previous; }
-
-RadixListElement * RadixList_IteratorGetNext(RadixListIterator *ki)
-    { return ki->next; }
-
-unsigned long long RadixList_IteratorIndex(RadixListIterator *ki)
-    { return ki->index; }
-
 void RadixList_IteratorNext(RadixListIterator *ki)
 {
     // If the current element is not a null pointer, move up the linked list.
@@ -97,7 +85,7 @@ RadixListQueryResult RadixList_Query(
     result.found = false;
 
     // Check if the current element is not d e a d each iteration.
-    while ((result.current = RadixList_IteratorGet(&keys)))
+    while ((result.current = RadixIterator_Get(&keys)))
     {   
         if (RadixList_IteratorCheckElement(&keys, &query))
         {
@@ -105,9 +93,9 @@ RadixListQueryResult RadixList_Query(
              * elements.
              */
             result.index.present = BOOLIFY(result.current);
-            result.index.index = RadixList_IteratorIndex(&keys);
-            result.next = RadixList_IteratorGetNext(&keys);
-            result.previous = RadixList_IteratorGetPrev(&keys);
+            result.index.index = RadixIterator_GetIndex(&keys);
+            result.next = RadixIterator_GetNext(&keys);
+            result.previous = RadixIterator_GetPrev(&keys);
             result.found = true;
 
             break;
@@ -256,7 +244,7 @@ void RadixList_DestroyList(RadixList *list)
     RadixListIterator keys = RadixList_NewIterator(list);
     RadixListElement *element;
 
-    while ((element = RadixList_IteratorGet(&keys)))
+    while ((element = RadixIterator_Get(&keys)))
     {
         RadixAbstract_DestroyBlob(&(element->value));
         free(element);
@@ -274,7 +262,7 @@ void RadixList_Concatenate(RadixList *dest, RadixList *src, char side)
     RadixListElement *element;
     unsigned long long new_index;
 
-    while ((element = RadixList_IteratorGet(&keys)))
+    while ((element = RadixIterator_Get(&keys)))
     {
         (void)RadixList_AppendValue(dest, side, element->value);
 

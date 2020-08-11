@@ -84,18 +84,6 @@
     // Make a new list iterator
     RadixListIterator RadixList_NewIterator(RadixList *list);
 
-    // Get the list iterator's current element
-    RadixListElement * RadixList_IteratorGet(RadixListIterator *ki);
-
-    // Get the list iterator's previous element
-    RadixListElement * RadixList_IteratorGetPrev(RadixListIterator *ki);
-
-    // Get the list iterator's next element (from da future!)
-    RadixListElement * RadixList_IteratorGetNext(RadixListIterator *ki);
-
-    // Get the list iterator's current index
-    unsigned long long RadixList_IteratorIndex(RadixListIterator *ki);
-
     // Move the list iterator to the next element in the list
     void RadixList_IteratorNext(RadixListIterator *ki);
 

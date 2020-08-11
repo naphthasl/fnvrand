@@ -23,4 +23,10 @@
     // an alternative access method.
     #define R_IndexPresent(a) (a.present)
     #define R_IndexPosition(a) (a.index)
+
+    // Macros that apply to both iterators
+    #define RadixIterator_Get(a) ((a)->element)
+    #define RadixIterator_GetPrev(a) ((a)->previous)
+    #define RadixIterator_GetNext(a) ((a)->next)
+    #define RadixIterator_GetIndex(a) ((a)->index)
 #endif
