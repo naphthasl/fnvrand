@@ -19,4 +19,5 @@
     #include "fastrand.h"
     #include "fnv.h"
     #include "hex.h"
+    #include "fracts.h"
 #endif
