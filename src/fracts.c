@@ -3,55 +3,67 @@ typedef struct fract {
 	int den;
 } fract;
 
-//ADD TERM FRACT TO OUTPUT FRACT
+/*
+	fract-fract operations
+*/
+
+//add term fract to output fract
 void fract_add_fract(fract *output_fract, fract term_fract) {
 	*output_fract.num = (*output_fract.num) * term_fract.den +
 		(*output_fract.den) * term_fract.num;
 	*output_fract.den = (*output_fract.den) * term_fract.den;
 };
 
-//SUBTRACT TERM FRACT FROM OUTPUT FRACT
+//subtract term fract from output fract
 void fract_sub_fract(fract *output_fract, fract term_fract) {
 	*output_fract.num = (*output_fract.num) * term_fract.den -
 		(*output_fract.den) * term_fract.num;
 	*output_fract.den = (*output_fract.den) * term_fract.den;
 };
 
-//MULTIPLY OUTPUT FRACT BY TERM FRACT
+//multiply output fract by term fract
 void fract_mul_fract(fract *output_fract, fract term_fract) {
 	*output_fract.num = (*output_fract.num) * term_fract.num;
 	*output_fract.den = (*output_fract.den) * term_fract.den;
 };
 
-//DIVIDE OUTPUT FRACT BY TERM FRACT
+//divide output fract by term fract
 void fract_div_fract(fract *output_fract, fract term_fract) {
 	*output_fract.num = (*output_fract.num) * term_fract.den;
 	*output_fract.den = (*output_fract.den) * term_fract.num;
 };
 
-//https://www.youtube.com/watch?v=9pRcfAeSurg
+/*
+	fract unary operations
+*/
+
+//set output fract to its reciprocal
 void fract_reciprocate(fract *output_fract) {
 	int temp = *output_fract.num;
 	*output_fract.num = *output_fract.den;
 	*output_fract.den = temp;
 };
 
-//ADD TERM INTEGER TO OUTPUT FRACT
+/*
+	fract-int operations
+*/
+
+//add term int to output fract
 void fract_add_int(fract *output_fract, int term_int) {
 	*output_fract.num = (*output_fract.num) + (*output_fract.den) * term_int;
 };
 
-//SUBTRACT TERM INTEGER FROM OUTPUT FRACT
+//subtract term int from output fract
 void fract_sub_int(fract *output_fract, int term_int) {
 	*output_fract.num = (*output_fract.num) - (*output_fract.den) * term_int;
 };
 
-//MULTIPLY OUTPUT FRACT BY TERM INT
+//multiply output fract by term int
 void fract_mul_int(fract *output_fract, int term_int) {
 	*output_fract.num = (*output_fract.num) * term_int;
 };
 
-//DIVIDE OUTPUT FRACT BY TERM INT
+//divide output fract by term int
 void fract_div_int(fract *output_fract, int term_int) {
 	*output_fract.den = (*output_fract.den) * term_int;
 };
