@@ -4,45 +4,14 @@
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
-
     /* ## private structs ##
      * These are structures used internally to represent a list. You won't
      * have to interface with them yourself - you'll only have to use them as
      * variable types.
      */
-    typedef struct RadixListElement {
-        // Represents the value in the list, which will also be fully compared
-        // when searching for values.
-        RadixMemoryBlob value;
-        // Points to the next element in the list, as this is a linked list
-        struct RadixListElement *next_element;
-    } RadixListElement;
 
-    // Root definition of the list, containing the length, a pointer to the
-    // first element and a pointer to the last element.
-    typedef struct RadixList {
-        unsigned long long length;
-        RadixListElement *first_element;
-        RadixListElement *last_element;
-    } RadixList;
-
-    // List iterator for performing iterative operations on a list
-    typedef struct RadixListIterator {
-        // The list that is being iterated over
-        RadixList *list;
-        // The current element
-        RadixListElement *element;
-        // The current index
-        unsigned long long index;
-        // The next and previous elements
-        RadixListElement *previous;
-        RadixListElement *next;
-        // Whether or not the iterator has been exhausted
-        // (can also boolify element)
-        bool exhausted;
-    } RadixListIterator;
+    // IMPORTANT: Read this for query flags
+    #include "linked_shared.h"
 
     // Result from querying the list
     typedef struct RadixListQueryResult {
@@ -77,15 +46,6 @@
 
     // Create a new list
     RadixList RadixList_New();
-
-    // Get the list length, 0 if empty
-    unsigned long long RadixList_Length(RadixList *list);
-
-    // Make a new list iterator
-    RadixListIterator RadixList_NewIterator(RadixList *list);
-
-    // Move the list iterator to the next element in the list
-    void RadixList_IteratorNext(RadixListIterator *ki);
 
     // Check if a list iterator's current element matches the given query
     bool RadixList_IteratorCheckElement(

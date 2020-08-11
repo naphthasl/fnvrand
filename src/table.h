@@ -18,47 +18,14 @@
 
 #ifndef FTABL_HEADER_FILE
 #define FTABL_HEADER_FILE
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
-
     /* ## private structs ##
      * These are structures used internally to represent a table. You won't
      * have to interface with them yourself - you'll only have to use them as
      * variable types.
      */
-	typedef struct RadixTableElement {
-	    // This allows for better iterative performance when searching for keys
-	    uint64_t keyHash;
-	    // This provides a key/value pair similar to Python's dicts
-	    RadixMemoryBlob key;
-	    RadixMemoryBlob value;
-	    // Since this is based on the concept of a linked list...
-	    struct RadixTableElement *next_element;
-	} RadixTableElement;
 
-	typedef struct RadixTable {
-	    // The length of the table, which changes during SetItem and
-        // DestroyItem
-	    unsigned long long length;
-	    // The very first element of the table, which starts the chain.
-	    RadixTableElement *first_element;
-	    // Whether or not to insert at the end
-	    bool insert_at_end;
-	} RadixTable;
-
-	typedef struct RadixTableKeyIterator {
-	    // Points back to the table, so you always know the source.
-	    RadixTable *table;
-	    // The current element that the iterator is hovering over.
-	    RadixTableElement *element;
-	    // The current index the iterator is hovering over, starting from 0.
-	    unsigned long long index;
-	    // FWD/BKWD
-	    RadixTableElement *previous;
-	    RadixTableElement *next;
-	    // Warning flags
-	    bool exhausted;
-	} RadixTableKeyIterator;
+    // IMPORTANT: Read this for query flags
+    #include "linked_shared.h"
 
 	typedef struct RadixTableQueryResult {
 	    bool found;
@@ -87,22 +54,6 @@
      * Create a new table.
      */
     RadixTable RadixTable_New();
-
-    /* -- RadixTable_Length --
-     * Return the amount of elements in a table.
-     */
-    unsigned long long RadixTable_Length(RadixTable *table);
-
-    /* -- RadixTable_NewKeyIterator --
-     * Return a key iterator structure, used to iterate over each key in a
-     * table.
-     */
-    RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table);
-
-    /* -- RadixTable_KeyIteratorNext --
-     * Move the key iterator to the next key.
-     */
-    void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki);
 
     /* -- RadixTable_KeyIteratorNext --
      * Returns true if the current element in the key iterator matches the

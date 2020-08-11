@@ -17,44 +17,7 @@ RadixTable RadixTable_New()
     // This allows for a single shared point for initialization! :)
     { RadixTable table = {0, NULL, false}; return table; }
 
-/* Property checking */
-
-unsigned long long RadixTable_Length(RadixTable *table)
-    // Ensures the user doesn't need to interact with the struct directly
-    { return table->length; }
-
 /* Key iteration */
-
-RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table)
-{
-    /* Create a key iterator - important, since it means you don't need to
-     * create an array containing every key hash or something.
-     */
-
-    RadixTableKeyIterator ki = {
-        table, table->first_element, 0, NULL, NULL, false
-    };
-    
-    if (table->first_element) ki.next = ki.element->next_element;
-
-    return ki;
-}
-
-void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki)
-{
-    // If the current element is not a null pointer, move up the linked list.
-    if (ki->element) 
-    {
-        ki->previous = ki->element;
-        ki->element = ki->element->next_element;
-        if (ki->element) ki->next = ki->element->next_element;
-        else ki->next = NULL;
-        
-        ki->index++;
-    } else {
-        ki->exhausted = true;
-    }
-}
 
 bool RadixTable_KeyIteratorCheckElement(
     RadixTableKeyIterator *ki,

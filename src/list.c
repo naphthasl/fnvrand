@@ -10,40 +10,7 @@ RadixList RadixList_New()
     // This allows for a single shared point for initialization! :)
     { RadixList list = {0, NULL, NULL}; return list; }
 
-/* Property checking */
-
-unsigned long long RadixList_Length(RadixList *list)
-    // Ensures the user doesn't need to interact with the struct directly
-    { return list->length; }
-
 /* Key iteration */
-
-RadixListIterator RadixList_NewIterator(RadixList *list)
-{
-    RadixListIterator ki = {
-        list, list->first_element, 0, NULL, NULL, false
-    };
-    
-    if (list->first_element) ki.next = ki.element->next_element;
-
-    return ki;
-}
-
-void RadixList_IteratorNext(RadixListIterator *ki)
-{
-    // If the current element is not a null pointer, move up the linked list.
-    if (ki->element) 
-    {
-        ki->previous = ki->element;
-        ki->element = ki->element->next_element;
-        if (ki->element) ki->next = ki->element->next_element;
-        else ki->next = NULL;
-        
-        ki->index++;
-    } else {
-        ki->exhausted = true;
-    }
-}
 
 bool RadixList_IteratorCheckElement(
     RadixListIterator *ki,
