@@ -19,25 +19,25 @@
         // See RadixList_IndexStructExists and RadixList_IndexStructPosition
     } RadixIndex;
 
-	typedef struct RadixTableElement {
-	    // This allows for better iterative performance when searching for keys
-	    uint64_t keyHash;
-	    // This provides a key/value pair similar to Python's dicts
-	    RadixMemoryBlob key;
-	    RadixMemoryBlob value;
-	    // Since this is based on the concept of a linked list...
-	    struct RadixTableElement *next_element;
-	} RadixTableElement;
+    typedef struct RadixTableElement {
+        // This allows for better iterative performance when searching for keys
+        uint64_t keyHash;
+        // This provides a key/value pair similar to Python's dicts
+        RadixMemoryBlob key;
+        RadixMemoryBlob value;
+        // Since this is based on the concept of a linked list...
+        struct RadixTableElement *next_element;
+    } RadixTableElement;
 
-	typedef struct RadixTable {
-	    // The length of the table, which changes during SetItem and
+    typedef struct RadixTable {
+        // The length of the table, which changes during SetItem and
         // DestroyItem
-	    unsigned long long length;
-	    // The very first element of the table, which starts the chain.
-	    RadixTableElement *first_element;
-	    // Whether or not to insert at the end
-	    bool insert_at_end;
-	} RadixTable;
+        unsigned long long length;
+        // The very first element of the table, which starts the chain.
+        RadixTableElement *first_element;
+        // Whether or not to insert at the end
+        bool insert_at_end;
+    } RadixTable;
 
     typedef struct RadixListElement {
         // Represents the value in the list, which will also be fully compared
