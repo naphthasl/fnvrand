@@ -34,7 +34,8 @@
 	} RadixTableElement;
 
 	typedef struct RadixTable {
-	    // The length of the table, which changes during SetItem and DestroyItem
+	    // The length of the table, which changes during SetItem and
+        // DestroyItem
 	    unsigned long long length;
 	    // The very first element of the table, which starts the chain.
 	    RadixTableElement *first_element;
