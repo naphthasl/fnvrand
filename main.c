@@ -21,6 +21,21 @@ int main(int argc, char *argv[])
 
     printf("Contains: %llu \n", RadixAbstract_BlobContains(StrToBlob("hello world"), StrToBlob("o wo"), 4));
 
+    RadixList test_list = RadixList_New();
+    RadixList_AppendValue(&test_list, LIST_SIDE_RIGHT, StrToBlob("hello"));
+    RadixList_AppendValue(&test_list, LIST_SIDE_RIGHT, StrToBlob("world"));
+    RadixList_AppendValue(&test_list, LIST_SIDE_RIGHT, StrToBlob("foo"));
+    RadixList_AppendValue(&test_list, LIST_SIDE_RIGHT, StrToBlob("bar"));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 0)));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 1)));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 2)));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 3)));
+    RadixList_DestroyIndex(&test_list, 1);
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 0)));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 1)));
+    printf("ListTest: %s \n", (char *)RadixAbstract_GetBlobPointer(*RadixList_GetValue(&test_list, 2)));
+    RadixList_DestroyList(&test_list);
+
     uint64_t kts = fnv2r64("Tast", 4);
     printf("KTS: "); u_printmemhex(&kts, 8); printf("\n");
 
