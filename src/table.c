@@ -219,12 +219,10 @@ void RadixTable_SetItem(
         element->key = RadixAbstract_MallocCopy(key);
 
         table->length++;
-    } else {
-        // Destroy the original value to prevent a memory leak
-        RadixAbstract_DestroyBlob(&(element->value));
     }
 
     // Malloc a new blob for the value to isolate the table.
+    RadixAbstract_DestroyBlob(&(element->value));
     element->value = RadixAbstract_MallocCopy(value);
 }
 
