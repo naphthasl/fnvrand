@@ -1,7 +1,8 @@
 #include <math.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <assert.h>
-#include "primitives.h"
+#include "fastrand.h"
 
 uint8_t fr_lookup0[256] = {
     0x20, 0x35, 0xFE, 0x22, 0x56, 0xA3, 0xB1, 0x65, 0x42, 0xCC, 0x0A, 0x62,

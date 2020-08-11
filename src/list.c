@@ -1,9 +1,10 @@
 #include <stdint.h>
 #include "primitives.h"
+#include "list.h"
 
 typedef struct RadixListElement {
     RadixMemoryBlob value;
-    RadixListElement *next_element;
+    struct RadixListElement *next_element;
 } RadixListElement;
 
 typedef struct RadixList {

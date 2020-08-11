@@ -3,5 +3,4 @@
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
-    #include "list.c"
 #endif

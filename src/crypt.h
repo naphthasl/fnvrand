@@ -45,5 +45,4 @@
      */
     void cr_encrypt_decrypt(RadixMemoryBlob data, const uint64_t gkey);
 
-    #include "crypt.c"
 #endif

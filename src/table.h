@@ -227,5 +227,4 @@
      */
     void RadixTable_Update(RadixTable *dest, RadixTable *src);
 
-    #include "table.c"
 #endif

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "primitives.h"
+#include "hex.h"
 
 /* Yes, creating a lookup table for all of this was easier than the more
  * logical implementation. Also, I think this is faster to execute anyway.

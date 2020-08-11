@@ -1,6 +1,7 @@
 #include "fnv.h"
 #include "fastrand.h"
 #include "primitives.h"
+#include "crypt.h"
 
 typedef struct cr_state {
     uint64_t gkey, fkey;

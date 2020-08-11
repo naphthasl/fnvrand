@@ -1,6 +1,8 @@
 #include <stdint.h>
+#include <stddef.h>
 #include "fnv.h"
 #include "bool.h"
+#include "table.h"
 
 /* Persistent structures */
 
@@ -11,7 +13,7 @@ typedef struct RadixTableElement {
     RadixMemoryBlob key;
     RadixMemoryBlob value;
     // Since this is based on the concept of a linked list...
-    RadixTableElement *next_element;
+    struct RadixTableElement *next_element;
 } RadixTableElement;
 
 typedef struct RadixTable {

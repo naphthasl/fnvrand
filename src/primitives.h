@@ -14,7 +14,13 @@
      * Structure representing a starting pointer and the length of the
      * whole memory range.
      */
-    typedef struct RadixMemoryBlob RadixMemoryBlob;
+	typedef struct RadixMemoryBlob {
+	    unsigned long long length;
+	    void *ptr;
+	    bool heap;
+	    bool destroyed;
+	} RadixMemoryBlob;
+
 
     /* -- RadixAbstract_ConstructPointerBlob --
      * Takes a given pointer and memory range length and uses it to construct
@@ -134,6 +140,4 @@
         unsigned int interval);
 
     #define StrToBlob RadixAbstract_StrBlob
-
-    #include "primitives.c"
 #endif

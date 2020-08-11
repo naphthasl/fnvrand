@@ -26,5 +26,4 @@
      */
     RadixMemoryBlob RadixAbstract_BlobToHex(RadixMemoryBlob data);
 
-    #include "hex.c"
 #endif
