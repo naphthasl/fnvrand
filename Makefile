@@ -8,10 +8,10 @@ OBJ = ${SRC:.c=.o}
 all: clean test
 
 libradix.so: ${OBJ}
-	${CC} -o $@ ${OBJ} -shared -fPIC -g
+	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 test: libradix.so main.c
-	${CC} main.c -L$(ORIGIN) -lradix
+	${CC} main.c -L. -lradix
 
 clean:
 	rm -f a.out libradix.so ${OBJ}

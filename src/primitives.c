@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "bool.h"
 #include "primitives.h"
+#include "macros.h"
 
 RadixMemoryBlob RadixAbstract_ConstructPointerBlob(
     void *dest,
