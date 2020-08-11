@@ -2,6 +2,7 @@
 #include "primitives.h"
 #include "list.h"
 #include "bool.h"
+#include "macros.h"
 
 /* Table initialization */
 
@@ -182,6 +183,8 @@ unsigned long long RadixList_InsertNew(
 {
     RadixListElement **target;
     bool modified_last = false;
+
+    new_position = MIN(new_position, list->length);
 
     if (!new_position) target = &(list->first_element);
     else if (new_position == list->length)
