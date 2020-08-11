@@ -188,7 +188,7 @@ unsigned long long RadixList_InsertNew(
 
     if (!new_position) target = &(list->first_element);
     else if (new_position == list->length)
-        { target = &(list->last_element->next_element); modified_last = true; }
+        target = &(list->last_element->next_element), modified_last = true;
     else target = &(RadixList_FindIndex(list, new_position - 1)->next_element);
 
     if (!list->first_element) modified_last = true;
