@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "primitives.h"
 #include "list.h"
+#include <stddef.h>
 
 /* Table initialization */
 

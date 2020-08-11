@@ -1,3 +1,4 @@
+#include <string.h>
 #include "primitives.h"
 #include "fastrand.h"
 #include "fnv.h"
