@@ -23,8 +23,6 @@
      * have to interface with them yourself - you'll only have to use them as
      * variable types.
      */
-	/* Persistent structures */
-
 	typedef struct RadixTableElement {
 	    // This allows for better iterative performance when searching for keys
 	    uint64_t keyHash;
