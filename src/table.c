@@ -19,6 +19,8 @@ typedef struct RadixTable {
     unsigned long long length;
     // The very first element of the table, which starts the chain.
     RadixTableElement *first_element;
+    // Whether or not to insert at the end
+    bool insert_at_end;
 } RadixTable;
 
 typedef struct RadixTableIndex {
@@ -70,7 +72,7 @@ uint64_t RadixTable_HashKey(RadixMemoryBlob key)
 
 RadixTable RadixTable_New()
     // This allows for a single shared point for initialization! :)
-    { RadixTable table = {0, 0}; return table; }
+    { RadixTable table = {0, NULL, false}; return table; }
 
 /* Property checking */
 
@@ -247,19 +249,27 @@ void RadixTable_SetItem(
     {
         RadixTableElement *passing_element = (table->first_element);
 
-        if(passing_element)
+        if(table->insert_at_end)
         {
-            while (passing_element->next_element)
-                passing_element = element->next_element;
+            if(passing_element)
+            {
+                while (passing_element->next_element)
+                    passing_element = element->next_element;
 
-            passing_element->next_element = malloc(sizeof(RadixTableElement));
-            element = passing_element->next_element;
+                passing_element->next_element = malloc(
+                    sizeof(RadixTableElement));
+                element = passing_element->next_element;
+            } else {
+                table->first_element = malloc(sizeof(RadixTableElement));
+                element = table->first_element;
+            }
+            element->next_element = NULL;
         } else {
             table->first_element = malloc(sizeof(RadixTableElement));
             element = table->first_element;
+            element->next_element = passing_element;
         }
 
-        element->next_element = NULL;
         // Create the new key hash
         element->keyHash = RadixTable_HashKey(key);
         element->key = RadixAbstract_MallocCopy(key);
