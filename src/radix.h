@@ -9,10 +9,12 @@
 
 #ifndef RADIX_HEADER_FILE
 #define RADIX_HEADER_FILE
+    #include "glbl.h"
     #include "bool.h"
     #include "macros.h"
     #include "primitives.h"
     #include "table.h"
+    #include "list.h"
     #include "crypt.h"
     #include "fastrand.h"
     #include "fnv.h"
