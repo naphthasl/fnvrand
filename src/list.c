@@ -274,7 +274,7 @@ bool RadixList_IndexStructExists(RadixListIndex index)
 unsigned long long RadixList_IndexStructPosition(RadixListIndex index)
     { return index.index; }
 
-void RadixTable_Concatenate(RadixList *dest, RadixList *src, char side)
+void RadixList_Concatenate(RadixList *dest, RadixList *src, char side)
 {
     RadixListIterator keys = RadixList_NewIterator(src);
     RadixListElement *element;
