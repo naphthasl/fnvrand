@@ -30,5 +30,4 @@
      */
     uint64_t RadixAbstract_fnv2r_64(RadixMemoryBlob data);
 
-    #include "fnv.c"
 #endif

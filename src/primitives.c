@@ -1,12 +1,7 @@
 #include <assert.h>
 #include "bool.h"
-
-typedef struct RadixMemoryBlob {
-    unsigned long long length;
-    void *ptr;
-    bool heap;
-    bool destroyed;
-} RadixMemoryBlob;
+#include "primitives.h"
+#include "macros.h"
 
 RadixMemoryBlob RadixAbstract_ConstructPointerBlob(
     void *dest,

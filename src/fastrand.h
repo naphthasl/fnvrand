@@ -4,6 +4,7 @@
  */
 
 #include <stdint.h>
+#include "primitives.h"
 
 #ifndef FASTRAND_HEADER_FILE
 #define FASTRAND_HEADER_FILE
@@ -40,5 +41,4 @@
      */
     int fr_uniquerandom(int n);
 
-    #include "fastrand.c"
 #endif

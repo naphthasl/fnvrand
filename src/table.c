@@ -1,63 +1,8 @@
 #include <stdint.h>
+#include <stddef.h>
 #include "fnv.h"
 #include "bool.h"
-
-/* Persistent structures */
-
-typedef struct RadixTableElement {
-    // This allows for better iterative performance when searching for keys
-    uint64_t keyHash;
-    // This provides a key/value pair similar to Python's dicts
-    RadixMemoryBlob key;
-    RadixMemoryBlob value;
-    // Since this is based on the concept of a linked list...
-    RadixTableElement *next_element;
-} RadixTableElement;
-
-typedef struct RadixTable {
-    // The length of the table, which changes during SetItem and DestroyItem
-    unsigned long long length;
-    // The very first element of the table, which starts the chain.
-    RadixTableElement *first_element;
-    // Whether or not to insert at the end
-    bool insert_at_end;
-} RadixTable;
-
-typedef struct RadixTableIndex {
-    bool present;
-    unsigned long long index;
-} RadixTableIndex;
-
-typedef struct RadixTableKeyIterator {
-    // Points back to the table, so you always know the source.
-    RadixTable *table;
-    // The current element that the iterator is hovering over.
-    RadixTableElement *element;
-    // The current index the iterator is hovering over, starting from 0.
-    unsigned long long index;
-    // FWD/BKWD
-    RadixTableElement *previous;
-    RadixTableElement *next;
-    // Warning flags
-    bool exhausted;
-} RadixTableKeyIterator;
-
-typedef struct RadixTableQueryResult {
-    bool found;
-    RadixTableIndex index;
-    RadixTableElement *previous;
-    RadixTableElement *current;
-    RadixTableElement *next;
-} RadixTableQueryResult;
-
-typedef struct RadixTableQuery {
-    char query_for;
-    uint64_t keyHash;
-    RadixMemoryBlob *key;
-    RadixMemoryBlob *value;
-    unsigned long long index;
-    unsigned int containsInterval;
-} RadixTableQuery;
+#include "table.h"
 
 /* Internal magic */
 

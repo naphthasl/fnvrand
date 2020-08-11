@@ -1,5 +1,6 @@
 #include "primitives.h"
 #include "fastrand.h"
+#include "fnv.h"
 
 uint32_t fnv1a(const void *data, uint32_t numBytes)
 {
