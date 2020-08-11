@@ -1,3 +1,5 @@
+#include "glbl.h"
+
 #ifndef FBOOL_HEADER_FILE
 #define FBOOL_HEADER_FILE
     // Just in case it has been defined elsewhere

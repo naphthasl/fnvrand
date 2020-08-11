@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FLIST_HEADER_FILE

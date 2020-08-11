@@ -4,7 +4,7 @@
  * representations.
  */
 
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FUTIL_HEADER_FILE

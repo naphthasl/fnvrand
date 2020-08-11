@@ -1,3 +1,5 @@
+#include "glbl.h"
+
 #ifndef FRACT_HEADER_FILE
 #define FRACT_HEADER_FILE
 	typedef struct fract {

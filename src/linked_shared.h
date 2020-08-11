@@ -1,3 +1,5 @@
+#include "glbl.h"
+
 #ifndef FLSTTBL_HEADER_FILE
 #define FLSTTBL_HEADER_FILE
     /* Search by index, key or value */

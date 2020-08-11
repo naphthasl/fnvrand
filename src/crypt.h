@@ -4,7 +4,7 @@
  * both block and stream encryption.
  */
 
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FCRYPT_HEADER_FILE

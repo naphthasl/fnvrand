@@ -1,7 +1,4 @@
-#include <math.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <assert.h>
+#include "glbl.h"
 #include "fastrand.h"
 
 uint8_t fr_lookup0[256] = {

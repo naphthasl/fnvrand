@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 #include "hex.h"
 

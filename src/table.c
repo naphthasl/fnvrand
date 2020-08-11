@@ -1,6 +1,4 @@
-#include <stdint.h>
-#include <stdlib.h>
-#include <stddef.h>
+#include "glbl.h"
 #include "fnv.h"
 #include "bool.h"
 #include "table.h"

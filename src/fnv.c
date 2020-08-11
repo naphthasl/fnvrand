@@ -1,4 +1,4 @@
-#include <string.h>
+#include "glbl.h"
 #include "primitives.h"
 #include "fastrand.h"
 #include "fnv.h"

@@ -13,7 +13,7 @@
  * to modify the key that much anyway.
  */
 
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FTABL_HEADER_FILE

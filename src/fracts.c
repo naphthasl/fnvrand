@@ -1,3 +1,4 @@
+#include "glbl.h"
 #include "fracts.h"
 
 /*

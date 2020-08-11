@@ -4,7 +4,7 @@
  * as described here https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
  */
 
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FNV_HEADER_FILE

@@ -3,7 +3,7 @@
  * Allows for the generation of random integers and blobs.
  */
 
-#include <stdint.h>
+#include "glbl.h"
 #include "primitives.h"
 
 #ifndef FASTRAND_HEADER_FILE
