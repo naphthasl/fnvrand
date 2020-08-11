@@ -1,5 +1,5 @@
-FLAGS = -std=c99 -pedantic -Wall -Wextra
-CFLAGS = -fPIC -g
+FLAGS = -std=c89 -pedantic -Wall -Wextra
+CFLAGS = -fPIC -Ofast -g -march=core2 -mtune=generic
 LDFLAGS = -shared
 
 SRC = $(wildcard src/*.c)
