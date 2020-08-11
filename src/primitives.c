@@ -1,4 +1,6 @@
 #include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 #include "bool.h"
 #include "primitives.h"
 #include "macros.h"
