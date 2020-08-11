@@ -15,6 +15,7 @@
 	
 	//fract unary operations
 	void fract_reciprocate(fract *output_fract);
+	double fract_to_double(fract input_fract);
 	
 	//fract-int operations
 	void fract_add_int(fract *output_fract, int term_int);
