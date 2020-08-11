@@ -202,6 +202,18 @@ unsigned long long RadixList_InsertNew(
 unsigned long long RadixList_Append(RadixList *list, char side)
     { return RadixList_InsertNew(list, (side ? list->length : 0)); }
 
+unsigned long long RadixList_AppendValue(
+    RadixList *list,
+    char side,
+    RadixMemoryBlob value)
+{
+    unsigned long long index = RadixList_Append(list, side);
+    RadixList_SetIndex(list, index, value);
+
+    return index;
+}
+
+
 void RadixList_SwapIndexValues(
     RadixList *list,
     unsigned long long p0,
@@ -266,8 +278,7 @@ void RadixTable_Concatenate(RadixList *dest, RadixList *src, char side)
 
     while ((element = RadixList_IteratorGet(&keys)))
     {
-        new_index = RadixList_Append(dest, side);
-        RadixList_SetIndex(dest, new_index, element->value);
+        (void)RadixList_AppendValue(dest, side, element->value);
 
         RadixList_IteratorNext(&keys);
     }

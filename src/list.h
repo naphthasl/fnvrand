@@ -166,6 +166,13 @@
     // by the RadixListSides enum. Returns the new position.
     unsigned long long RadixList_Append(RadixList *list, char side);
 
+    // Same as RadixList_Append, but it appends an actual value rather than a
+    // blank new element.
+    unsigned long long RadixList_AppendValue(
+        RadixList *list,
+        char side,
+        RadixMemoryBlob value);
+
     // Swap the values of two indexes in the list, useful for sorting.
     void RadixList_SwapIndexValues(
         RadixList *list,
