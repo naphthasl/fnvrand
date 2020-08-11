@@ -16,8 +16,8 @@
 #include <stdint.h>
 #include "primitives.h"
 
-#ifndef FLIST_HEADER_FILE
-#define FLIST_HEADER_FILE
+#ifndef FTABL_HEADER_FILE
+#define FTABL_HEADER_FILE
     /* ## private structs ##
      * These are structures used internally to represent a table. You won't
      * have to interface with them yourself - you'll only have to use them as
@@ -80,14 +80,8 @@
 	    unsigned int containsInterval;
 	} RadixTableQuery;
 
-    /* Search by index, key or value */
-    enum RadixTableQueryFlags {
-        QUERY_INDEX = 1,
-        QUERY_KEY = 2,
-        QUERY_KEY_CONTAINS = 4,
-        QUERY_VALUE = 8,
-        QUERY_VALUE_CONTAINS = 16
-    };
+    // IMPORTANT: Read this for query flags
+    #include "linked_shared.h"
 
     /* -- RadixTable_HashKey --
      * Hashes a blob so it can be used to optimize key retrieval. You do not
