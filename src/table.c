@@ -5,12 +5,11 @@
 
 /* Internal magic */
 
-uint64_t RadixTable_HashKey(RadixMemoryBlob key)
-    /* Currently using "hardered" FNV-1A hashes for the keys.
-     * It may be worth swapping this out for xxHash or SIPHASH24 or something.
-     * (I think Python maybe uses SIPHASH???)
-     */
-    { return RadixAbstract_fnv2r_64(key); }
+/* Currently using "hardered" FNV-1A hashes for the keys.
+ * It may be worth swapping this out for xxHash or SIPHASH24 or something.
+ * (I think Python maybe uses SIPHASH???)
+ */
+#define RadixTable_HashKey(a) RadixAbstract_fnv2r_64(a)
 
 /* Table initialization */
 
