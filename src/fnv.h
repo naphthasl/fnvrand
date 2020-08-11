@@ -6,13 +6,18 @@
 
 #include "glbl.h"
 #include "primitives.h"
+#include "macros.h"
 
 #ifndef FNV_HEADER_FILE
 #define FNV_HEADER_FILE
     /* These functions are for internal use only. */
     uint32_t fnv1a(const void *data, uint32_t numBytes);
     uint64_t fnv1a64(const void *data, uint32_t numBytes);
-    __uint128_t fnv2r128(const void *data, uint32_t numBytes);
+
+    // fnv2r128 and fnv2r64 produce different results depending on platform
+    #ifdef ENVIRONMENT64
+        __uint128_t fnv2r128(const void *data, uint32_t numBytes);
+    #endif
     uint64_t fnv2r64(const void *data, uint32_t numBytes);
 
     /* These functions are intended for public use. */
