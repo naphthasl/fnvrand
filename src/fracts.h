@@ -1,6 +1,9 @@
 #ifndef FRACT_HEADER_FILE
 #define FRACT_HEADER_FILE
-	typedef struct fract fract;
+	typedef struct fract {
+		int num;
+		int den;
+	} fract;
 	
 	//fract-fract operations
 	void fract_add_fract(fract *output_fract, fract term_fract);
@@ -16,6 +19,4 @@
 	void fract_sub_int(fract *output_fract, int term_int);
 	void fract_mul_int(fract *output_fract, int term_int);
 	void fract_div_int(fract *output_fract, int term_int);
-	
-	#include "fracts.c"
 #endif

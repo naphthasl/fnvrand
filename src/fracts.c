@@ -1,7 +1,4 @@
-typedef struct fract {
-	int num;
-	int den;
-} fract;
+#include "fracts.h"
 
 /*
 	fract-fract operations
