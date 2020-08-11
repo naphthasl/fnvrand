@@ -3,10 +3,9 @@
 
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
-    typedef struct RadixListElement RadixListElement;
     typedef struct RadixListElement {
         RadixMemoryBlob value;
-        RadixListElement *next_element;
+        struct RadixListElement *next_element;
     } RadixListElement;
 
     typedef struct RadixList {
