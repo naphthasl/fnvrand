@@ -69,27 +69,27 @@
     // Property checking macros
     #define RadixLL_Length(a) ((a)->length)
 
-    #define KEYITERATOR_STRUCT(name, type, elementtype)\
-	typedef struct name {\
-	    type *table;\
-	    elementtype *element;\
-	    unsigned long long index;\
-	    elementtype *previous;\
-	    elementtype *next;\
-	    bool exhausted;\
+    #define KEYITERATOR_STRUCT(name, type, elementtype)                     \
+	typedef struct name {                                                   \
+	    type *table;                                                        \
+	    elementtype *element;                                               \
+	    unsigned long long index;                                           \
+	    elementtype *previous;                                              \
+	    elementtype *next;                                                  \
+	    bool exhausted;                                                     \
 	} name;
     KEYITERATOR_STRUCT(RadixTableKeyIterator, RadixTable, RadixTableElement)
     KEYITERATOR_STRUCT(RadixListIterator, RadixList, RadixListElement)
     #undef KEYITERATOR_STRUCT
 
-    #define NEW_KEYITERATOR_FUNC(name, type, type2)\
-    type name(type2 *table)\
-    {\
-        type ki = {\
-            table, table->first_element, 0, NULL, NULL, false\
-        };\
-        if (table->first_element) ki.next = ki.element->next_element;\
-        return ki;\
+    #define NEW_KEYITERATOR_FUNC(name, type, type2)                         \
+    type name(type2 *table)                                                 \
+    {                                                                       \
+        type ki = {                                                         \
+            table, table->first_element, 0, NULL, NULL, false               \
+        };                                                                  \
+        if (table->first_element) ki.next = ki.element->next_element;       \
+        return ki;                                                          \
     }
     #ifdef FTABL_HEADER_FILE
         NEW_KEYITERATOR_FUNC(
@@ -101,20 +101,19 @@
     #endif
     #undef NEW_KEYITERATOR_FUNC
 
-    #define KEYITERATOR_FUNC(name, type)\
-    void name(type ki)\
-    {\
-        if (ki->element)\
-        {\
-            ki->previous = ki->element;\
-            ki->element = ki->element->next_element;\
-            if (ki->element) ki->next = ki->element->next_element;\
-            else ki->next = NULL;\
-            \
-            ki->index++;\
-        } else {\
-            ki->exhausted = true;\
-        }\
+    #define KEYITERATOR_FUNC(name, type)                                    \
+    void name(type ki)                                                      \
+    {                                                                       \
+        if (ki->element)                                                    \
+        {                                                                   \
+            ki->previous = ki->element;                                     \
+            ki->element = ki->element->next_element;                        \
+            if (ki->element) ki->next = ki->element->next_element;          \
+            else ki->next = NULL;                                           \
+            ki->index++;                                                    \
+        } else {                                                            \
+            ki->exhausted = true;                                           \
+        }                                                                   \
     }
     #ifdef FTABL_HEADER_FILE
         KEYITERATOR_FUNC(RadixTable_KeyIteratorNext, RadixTableKeyIterator *)
