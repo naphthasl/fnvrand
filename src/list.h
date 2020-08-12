@@ -2,6 +2,9 @@
 #include "primitives.h"
 #include "bool.h"
 
+// IMPORTANT: Read this for query flags
+#include "linked_shared.h"
+
 #ifndef FLIST_HEADER_FILE
 #define FLIST_HEADER_FILE
     /* ## private structs ##
@@ -9,9 +12,6 @@
      * have to interface with them yourself - you'll only have to use them as
      * variable types.
      */
-
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
 
     // Result from querying the list
     typedef struct RadixListQueryResult {

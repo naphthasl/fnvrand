@@ -84,9 +84,9 @@
     KEYITERATOR_STRUCT(RadixListIterator, RadixList, RadixListElement)
     #undef KEYITERATOR_STRUCT
 
-    RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki);
-    RadixList_IteratorNext(RadixListIterator *ki);
+    void RadixTable_KeyIteratorNext(RadixTableKeyIterator *ki);
+    void RadixList_IteratorNext(RadixListIterator *ki);
 
-    RadixTable_NewKeyIterator(RadixTable *table);
-    RadixList_NewIterator(RadixList *list);
+    RadixTableKeyIterator RadixTable_NewKeyIterator(RadixTable *table);
+    RadixListIterator RadixList_NewIterator(RadixList *list);
 #endif

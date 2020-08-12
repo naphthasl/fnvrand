@@ -16,6 +16,9 @@
 #include "glbl.h"
 #include "primitives.h"
 
+// IMPORTANT: Read this for query flags
+#include "linked_shared.h"
+
 #ifndef FTABL_HEADER_FILE
 #define FTABL_HEADER_FILE
     /* ## private structs ##
@@ -23,9 +26,6 @@
      * have to interface with them yourself - you'll only have to use them as
      * variable types.
      */
-
-    // IMPORTANT: Read this for query flags
-    #include "linked_shared.h"
 
 	typedef struct RadixTableQueryResult {
 	    bool found;

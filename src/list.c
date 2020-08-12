@@ -4,6 +4,9 @@
 #include "bool.h"
 #include "macros.h"
 
+// IMPORTANT: Read this for query flags
+#include "linked_shared.h"
+
 /* Table initialization */
 
 RadixList RadixList_New()

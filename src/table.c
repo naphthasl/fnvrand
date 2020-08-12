@@ -3,6 +3,9 @@
 #include "bool.h"
 #include "table.h"
 
+// IMPORTANT: Read this for query flags
+#include "linked_shared.h"
+
 /* Internal magic */
 
 /* Currently using "hardered" FNV-1A hashes for the keys.

@@ -10,14 +10,10 @@ type name(type2 *table)                                                 \
     if (table->first_element) ki.next = ki.element->next_element;       \
     return ki;                                                          \
 }
-#ifdef FTABL_HEADER_FILE
-    NEW_KEYITERATOR_FUNC(
-        RadixTable_NewKeyIterator, RadixTableKeyIterator, RadixTable)
-#endif
-#ifdef FLIST_HEADER_FILE
-    NEW_KEYITERATOR_FUNC(
-        RadixList_NewIterator, RadixListIterator, RadixList)
-#endif
+NEW_KEYITERATOR_FUNC(
+    RadixTable_NewKeyIterator, RadixTableKeyIterator, RadixTable)
+NEW_KEYITERATOR_FUNC(
+    RadixList_NewIterator, RadixListIterator, RadixList)
 #undef NEW_KEYITERATOR_FUNC
 
 #define KEYITERATOR_FUNC(name, type)                                    \
@@ -34,10 +30,6 @@ void name(type ki)                                                      \
         ki->exhausted = true;                                           \
     }                                                                   \
 }
-#ifdef FTABL_HEADER_FILE
-    KEYITERATOR_FUNC(RadixTable_KeyIteratorNext, RadixTableKeyIterator *)
-#endif
-#ifdef FLIST_HEADER_FILE
-    KEYITERATOR_FUNC(RadixList_IteratorNext,  RadixListIterator *)
-#endif
+KEYITERATOR_FUNC(RadixTable_KeyIteratorNext, RadixTableKeyIterator *)
+KEYITERATOR_FUNC(RadixList_IteratorNext,  RadixListIterator *)
 #undef KEYITERATOR_FUNC
