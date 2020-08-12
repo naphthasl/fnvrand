@@ -10,6 +10,7 @@
 #ifndef RADIX_HEADER_FILE
 #define RADIX_HEADER_FILE
     #include "glbl.h"
+    #include "types.h"
     #include "bool.h"
     #include "macros.h"
     #include "primitives.h"
