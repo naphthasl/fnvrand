@@ -45,7 +45,7 @@ void fract_reciprocate(fract *output_fract) {
 //evaluate input fract to a double
 double fract_to_double(fract input_fract) {
 	double output_double;
-	output_double = (double) input_fract.num / input_fract.den;
+	output_double = (double) (input_fract.num) / (double) (input_fract.den);
 	return output_double;
 };
 
