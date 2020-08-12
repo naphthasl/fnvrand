@@ -22,4 +22,7 @@
 	void fract_sub_int(fract *output_fract, int term_int);
 	void fract_mul_int(fract *output_fract, int term_int);
 	void fract_div_int(fract *output_fract, int term_int);
+	
+	//misc
+	int gcd(int inta, int intb);
 #endif

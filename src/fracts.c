@@ -72,3 +72,30 @@ void fract_mul_int(fract *output_fract, int term_int) {
 void fract_div_int(fract *output_fract, int term_int) {
 	output_fract->den = output_fract->den * term_int;
 };
+
+/*
+	misc
+*/
+
+//greatest common denominator finding function
+//stolen from:
+//lemire.me/blog/2013/12/26/fastest-way-to-compute-the-greatest-common-divisor/
+int gcd(int inta, int intb) {
+    int shift;
+    if (inta == 0)
+		return intb;
+    if (intb == 0)
+		return inta;
+    shift = __builtin_ctz(inta | intb);
+    inta >>= __builtin_ctz(inta);
+    do {
+        intb >>= __builtin_ctz(intb);
+        if (intb > intb) {
+            int temp = intb;
+            intb = inta;
+            inta = temp;
+        }  
+        intb = intb - inta;
+    } while (intb != 0);
+    return inta << shift;
+}
