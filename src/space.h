@@ -12,4 +12,9 @@
         float b;
         float c;
     } R_point3d;
+
+    typedef struct R_mesh3d {
+        unsigned short vertices;
+        R_point3d *points;
+    } R_mesh3d;
 #endif
