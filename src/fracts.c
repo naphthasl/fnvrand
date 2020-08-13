@@ -45,7 +45,7 @@ void fract_reciprocate(fract *output_fract) {
 //simplify a fract, if possible
 void fract_simplify(fract *output_fract) {
 	int fract_gcd = gcd(output_fract->num, output_fract->den);
-	if fract_gcd != 1 {
+	if (fract_gcd != 1) {
 		output_fract->num = output_fract->num / fract_gcd;
 		output_fract->den = output_fract->den / fract_gcd;
 	}
