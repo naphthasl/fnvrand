@@ -92,3 +92,6 @@ R_point3d R_GetMeshPoint(R_mesh3d *mesh, unsigned short i)
 
     return mesh->points[i];
 }
+
+unsigned short R_GetMeshVertices(R_mesh3d *mesh)
+    { return mesh->vertices; }

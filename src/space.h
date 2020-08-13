@@ -62,4 +62,7 @@
 
     // Return a given point in the mesh.
     R_point3d R_GetMeshPoint(R_mesh3d *mesh, unsigned short i);
+
+    // Get the amount of vertices/length of the mesh
+    unsigned short R_GetMeshVertices(R_mesh3d *mesh);
 #endif
