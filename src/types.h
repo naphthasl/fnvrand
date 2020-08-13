@@ -28,7 +28,8 @@
         TYPE_R_FRACT,
         TYPE_R_POINT2D,
         TYPE_R_POINT3D,
-        TYPE_R_MESH3D
+        TYPE_R_MESH3D,
+        TYPE_R_REGISTRY
     };
 
     enum R_TYPE_MODIFIER {
