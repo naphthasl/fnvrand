@@ -1,4 +1,5 @@
 #include "glbl.h"
+#include "bool.h"
 
 #ifndef RIVEC_HEADER_FILE
 #define RIVEC_HEADER_FILE
@@ -14,6 +15,7 @@
     } R_point3d;
 
     typedef struct R_mesh3d {
+        bool heap;
         unsigned short vertices;
         R_point3d *points;
     } R_mesh3d;
