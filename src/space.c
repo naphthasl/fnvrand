@@ -20,11 +20,75 @@ R_mesh3d R_MakeMeshFromPoints(unsigned short vertices, ...)
     return mesh;
 }
 
+R_mesh3d R_CopyMesh(R_mesh3d *mesh)
+{
+    R_mesh3d temp;
+    unsigned int size = sizeof(R_point3d) * mesh->vertices;
+
+    temp.points = malloc(size);
+    memcpy(temp.points, mesh->points, size);
+    temp.vertices = mesh->vertices;
+    temp.heap = true;
+
+    return temp;
+}
+
 void R_DestroyMesh(R_mesh3d *mesh)
 {
-    if (!mesh->points || !mesh->heap) return;
+    if (mesh->points && mesh->heap) free(mesh->points);
 
-    free(mesh->points);
     mesh->points = NULL;
     mesh->heap = false;
+    mesh->vertices = 0;
+}
+
+void R_MoveMeshPointsToHeap(R_mesh3d *mesh)
+{
+    if (mesh->heap) return;
+
+    unsigned int size = sizeof(R_point3d) * mesh->vertices;
+
+    R_point3d *temp = malloc(size);
+    memcpy(temp, mesh->points, size);
+    mesh->points = temp;
+    mesh->heap = true;
+}
+
+void R_ChangeMeshPointsSize(R_mesh3d *mesh, unsigned short size)
+{
+    if (size == mesh->vertices) return;
+
+    R_MoveMeshPointsToHeap(mesh);
+    mesh->points = realloc(mesh->points, sizeof(R_point3d) * size);
+    mesh->vertices = size;
+}
+
+void R_SetMeshPoint(R_mesh3d *mesh, unsigned short i, R_point3d point)
+{
+    if (i >= mesh->vertices) R_ChangeMeshPointsSize(mesh, i + 1);
+
+    mesh->points[i] = point;
+}
+
+void R_RemoveMeshPoint(R_mesh3d *mesh, unsigned short i)
+{
+    if (i >= mesh->vertices || mesh->vertices < 1) return;
+
+    R_MoveMeshPointsToHeap(mesh);
+
+    R_point3d temp;
+    temp = mesh->points[mesh->vertices - 1];
+    mesh->points[i] = temp;
+
+    mesh->vertices--;
+    mesh->points = realloc(mesh->points, sizeof(R_point3d) * mesh->vertices);
+}
+
+R_point3d R_GetMeshPoint(R_mesh3d *mesh, unsigned short i)
+{
+    R_point3d blank = {false, 0, 0, 0};
+
+    if (i >= mesh->vertices || mesh->vertices < 1) return blank;
+
+    return mesh->points[i];
 }
