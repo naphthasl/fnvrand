@@ -22,7 +22,7 @@
         R_point3d *points;
     } R_mesh3d;
 
-    /* Not recommended, do something like this...
+    /* Beware! This uses malloc. Maybe do something like this...
      * 
      * R_mesh3d myMesh = {
      *     false, 4, {
@@ -33,7 +33,10 @@
      *     }
      * };
      * 
-     * On the other hand, this does provide a standard way to create a mesh in
+     * Except the layout of this may change at any time since you're directly
+     * interfacing with the structure, which kinda sucks.
+     * 
+     * This does provide a standard way to create a mesh in
      * the event that the layout changes, so maybe you'd prefer to do it this
      * way. As long as your meshes aren't too complex, it's probably not an
      * issue.
