@@ -1,4 +1,4 @@
-FLAGS := -std=c99 -pedantic -Wall -Wextra -Wl,-rpath='$$ORIGIN'
+FLAGS := -std=gnu17 -pedantic -Wall -Wextra -Wl,-rpath='$$ORIGIN'
 CFLAGS := ${FLAGS} -fPIC -Ofast -g -march=core2 -mtune=generic -lm
 LDFLAGS := ${CFLAGS} -shared
 
