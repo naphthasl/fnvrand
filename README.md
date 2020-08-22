@@ -1,2 +1,2 @@
-# radix
-My own weird C utility library, or something. 
+# THIS REPOSITORY HAS BEEN ARCHIVED
+Go to: https://git.lotte.link/naphtha/radix
